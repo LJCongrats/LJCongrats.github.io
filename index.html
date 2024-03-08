@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+		display: flex;
+		font-family: Arial, sans-serif;
+		margin: 0;
+		font-size: 16px;
+		background-color: #d3d3d3; /* 整個網頁背景為淺灰色 */
+		}
+
+        }
+		 h1 {
+            margin-top: 50px;
+            font-size: 30px;
+            color: #000000;
+            background-color: #d3d3d3; /* 調整標題背景色為淺灰色 */
+            padding: 20px; /* 添加標題的內邊距，使其看起來更美觀 */
+        }
+
+        nav {
+			background-color: #333;
+			color: white;
+			padding: 15px;
+			text-align: center;
+			width: 200px;
+			height:100vh; /* Set a fixed height using viewport height (100vh) */
+		}
+
+        nav button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #555;
+            border: none;
+            cursor: pointer;
+        }
+
+        nav button:hover {
+            background-color: #333;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #000000;
+            margin: 0;
+        }
+
+        form {
+			text-align: left;
+			margin-top: 10px; /* 調整表單元素之間的間距 */
+		}
+
+		label, input {
+			display: block;
+			margin-bottom: 0px; /* 調整標籤和輸入框之間的間距 */
+		}
+
+        button {
+            width: 240px;
+            height: 80px;
+            font-size: 20px;
+            background-color: #808080;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+    </style>
+    <script src="./patient.js"></script>
+    <script src="./observation.js"></script>
+    <script src="./download.js"></script>
+    <title>病患資料</title>
+</head>
+<body>
+	
+    <nav>
+        <button onclick="showPatientInfo()">上傳病患資料/Patient</button>
+        <button onclick="showDiagnosisInfo()">上傳病歷檔案/Upload</button>
+        <button onclick="showDownload()">下載病歷報告/Download</button>
+    </nav>
+
+    <main id="content">
+        <!-- 內容將根據點擊的按鈕而變化 -->
+		<h1 style="text-align: center;">電子病歷資訊網站</h1>
+    </main>
+
+    <script>
+        function showPatientInfo() {
+    document.getElementById("content").innerHTML = `
+        <h1 style="text-align: center;">電子病歷資訊網站</h1>
+        <h2>上傳病患資料</h2>
+        <p id="errorOutput" style="color: red;"></p>
+        <form action="">
+            <label for="name">姓名</label>
+            <input type="text" id="name" placeholder="">
+            <br><br>
+            <label for="userID">身分證字號</label>
+            <input type="text" id="userID" placeholder="">
+            <br><br>
+            <label for="valueAge">年齡</label>
+            <input type="text" id="valueAge" placeholder="">
+            <br><br>
+            <label for="birthdate">生日</label>
+            <input type="text" id="birthdate" placeholder="xxxx-xx-xx">  
+            <br><br>
+            <label for="gender">性別</label>
+            <input type="text" id="gender" placeholder="male, female, unknown, other"> 
+            <br><br>
+            <button onclick="uploadFhirData()">送出</button>
+        </form>`;
+	}
+
+
+        function showDiagnosisInfo() {
+            document.getElementById("content").innerHTML = `
+                <h1 style="text-align: center;">電子病歷資訊網站</h1>
+				<h2>上傳病歷檔案</h2>
+				<p id="errorOutput" style="color: red;"></p>
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <label for="">姓名</label>
+                    <input type="text" id="name">
+                    <br><br>
+                    <label for="userID">身分證字號</label>
+                    <input type="text" id="userID">
+                    <br><br>
+                    <label for="organization">醫療機構</label>
+                    <input type="text" id="organization">
+                    <br><br>
+                    <label for="fileInput">選擇檔案：</label>
+                    <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
+                    <br><br>
+                    <button type="button" onclick="uploadFile()">上傳</button>
+                    <br><br>
+					<div id="loadingSpinner" style="display: none; text-align: center;">
+                    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+                    <p>Loading...</p>
+                </div>
+                    <div id="responseMessage"></div>
+                </form>`;
+        }
+
+        function showDownload() {
+            document.getElementById("content").innerHTML = `
+                <h1 style="text-align: center;">電子病歷資訊網站</h1>
+				<h2>下載病患病歷</h2>
+                <p id="errorOutput" style="color: red;"></p>
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <label for="">姓名</label>
+                    <input type="text" id="name">
+                    <br><br>
+                    <label for="userID">身分證字號</label>
+                    <input type="text" id="userID">
+                    <br><br>
+                    <button type="button" onclick="downloadData()">下載資料</button>
+                </form>`;
+        }
+    </script>
+</body>
+</html>
