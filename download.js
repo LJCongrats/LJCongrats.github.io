@@ -25,9 +25,8 @@ function downloadData() {
         downloadLink.click();
     })
     .catch(error => {
-        // 處理錯誤
         console.error('There was a problem with the fetch operation:', error);
-        document.getElementById('errorOutput').textContent = 'Download failed.';
-        alert("warning");
+        document.getElementById('errorOutput').textContent = 'Download failed: ' + error.message;
+        alert("Download error: " + error.message);
     });
 }
