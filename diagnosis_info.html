@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="./observation.js"></script>
+    <title>上傳檔案</title>
+</head>
+<body>
+    <h1>上傳病歷檔案</h1>
+
+    <form action="#" method="post" enctype="multipart/form-data">
+	
+	
+		<label for="">姓名</label>
+        <input type="text" id="name">
+		
+		<br><br>
+		<label for="userID">身分證字號</label>
+        <input type="text" id="userID">
+		
+		<br><br>
+		<label for="organization">醫療機構</label>
+        <input type="text" id="organization">
+		<br><br>
+        <label for="fileInput">選擇檔案：</label>
+        <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
+
+        
+		<br><br>
+
+        <button type="button" onclick="uploadFile()">上傳</button>
+		
+		<br><br>
+		<!-- Add this to your HTML -->
+		<div id="responseMessage"></div>
+    </form>
+</body>
+</html>
