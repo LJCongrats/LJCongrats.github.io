@@ -1,8 +1,7 @@
 function uploadFile() {
         var userName = document.getElementById("name").value;
         var userID = document.getElementById("userID").value;
-        var userorganization = document.getElementById("organization").value;
-
+       
         const fileInput = document.getElementById('fileInput');
         const api_url = "https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/upload";
 
@@ -12,7 +11,7 @@ function uploadFile() {
             formData.append('fileInput', file);
             formData.append('userID', userID);
             formData.append('userName', userName);
-            formData.append('userorganization', userorganization);
+            
 
             const loadingSpinner = document.getElementById('loadingSpinner');
             loadingSpinner.style.display = 'block';  // Show loading spinner
