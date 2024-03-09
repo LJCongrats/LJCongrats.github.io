@@ -7,7 +7,7 @@ function downloadData() {
     requestData.append('userName', userName);
     requestData.append('userID', userID);
 
-    fetch("http://140.116.156.241:4998/download", {
+    fetch("https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/download", {
         method: 'POST',
         body: requestData
     })
