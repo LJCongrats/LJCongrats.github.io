@@ -4,7 +4,7 @@ function uploadFile() {
         var userorganization = document.getElementById("organization").value;
 
         const fileInput = document.getElementById('fileInput');
-        const api_url = "http://140.116.156.241:4998/upload";
+        const api_url = "https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/upload";
 
         const file = fileInput.files[0];
         if (file) {
