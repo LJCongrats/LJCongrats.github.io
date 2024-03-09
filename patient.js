@@ -1,78 +1,52 @@
-function HTTPPostData(url, data) {
-    
-    // 設定 POST 請求的 URL 和選項
-    var options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)  // 將 JSON 物件轉換為字串
-    };
-
-    // 使用 Fetch API 發送 POST 請求
-    fetch(url, options)
-      .then(response => {
-        if (response.ok) {
-          return response.json();  // 如果伺服器返回 JSON 則解析它
-        }
-        throw new Error('網路錯誤');
-      })
-      .then(data => {
-        console.log('伺服器回應:', data);
-      })
-      .catch(error => {
-        console.error('錯誤:', error);
-      });
-      var errorOutputElement = document.getElementById("errorOutput");
-
-      errorOutputElement.innerHTML = '發生錯誤: ' + error.message;
-}
-
 function uploadFhirData() {
-    // 從表單抓取資料
-    var userName = document.getElementById("name").value;
-    var userBirthdate = document.getElementById("birthdate").value;
-    var userGender = document.getElementById("gender").value;
-    var userAge = document.getElementById("valueAge").value;
+    // Get data from form fields
+    var Uname = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
+    var valueAge = document.getElementById("valueAge").value;
+    var birthdate = document.getElementById("birthdate").value;
+    var gender = document.getElementById("gender").value;
 
-    // 建立要傳送給伺服器的資料物件
+    // Prepare request data
     var requestData = {
-        userName: userName,
-        birthDate: userBirthdate,
-        gender: userGender,
-        age: userAge,
+        userName: Uname,
+        birthDate: birthdate,
+        gender: gender,
+        age: valueAge,
         userID: userID
     };
 
-    // 指定 Flask API URL
-    var api_url = "https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/patient"; // 你的 Flask API URL
-
-    // 顯示 Loading Spinner
+    // Show loading spinner
     var loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';
 
-    // 使用之前定義的 HTTPPostData 函數發送 POST 請求
-    HTTPPostData(api_url, requestData)
-        .then(response => {
-            // 隱藏 Loading Spinner
-            loadingSpinner.style.display = 'none';
+    // Make POST request to Flask server
+    fetch("https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/patient", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-            // 顯示伺服器回應的訊息
-            var responseMessage = document.getElementById('responseMessage');
-            responseMessage.innerHTML = response.message;
-        })
-        .catch(error => {
-            // 隱藏 Loading Spinner
-            loadingSpinner.style.display = 'none';
+        return response.json();
+    })
+    .then(data => {
+        // Hide loading spinner
+        loadingSpinner.style.display = 'none';
 
-            // 顯示錯誤訊息
-            var responseMessage = document.getElementById('responseMessage');
-            responseMessage.innerHTML = '發生錯誤: ' + error.message;
-        });
+        // Handle the response data
+        var message = data.message;
+        document.getElementById("responseMessage").innerHTML = message;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        document.getElementById('responseMessage').textContent = 'Upload failed: ' + error.message;
+
+        // Hide loading spinner (error case)
+        loadingSpinner.style.display = 'none';
+    });
 }
-
-
-
-
-
