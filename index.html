@@ -123,7 +123,13 @@
             <label for="gender">性別</label>
             <input type="text" id="gender" placeholder="male, female, unknown, other"> 
             <br><br>
-            <button onclick="uploadFhirData()">送出</button>
+            <button type="button"onclick="uploadFhirData()">送出</button>
+			<br><br>
+					<div id="loadingSpinner" style="display: none; text-align: center;">
+                    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+                    <p>Loading...</p>
+                </div>
+                    <div id="responseMessage"></div>
         </form>`;
 	}
 
