@@ -1,52 +1,48 @@
 function uploadFhirData() {
-    // Get data from form fields
+    // 從表單字段中獲取數據
     var Uname = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
     var valueAge = document.getElementById("valueAge").value;
     var birthdate = document.getElementById("birthdate").value;
     var gender = document.getElementById("gender").value;
 
-    // Prepare request data
-    var requestData = {
-        userName: Uname,
-        birthDate: birthdate,
-        gender: gender,
-        age: valueAge,
-        userID: userID
-    };
+    // 準備表單數據
+    var formData = new FormData();
+    formData.append('userName', Uname);
+    formData.append('userID', userID);
+    formData.append('userAge', valueAge);
+    formData.append('userBirthdate', birthdate);
+    formData.append('userGender', gender);
 
-    // Show loading spinner
+    // 顯示加載中 Spinner
     var loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';
 
-    // Make POST request to Flask server
+    // 發送 POST 請求到 Flask 伺服器
     fetch("https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/patient", {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
+        body: formData
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('網路回應不正確');
         }
 
         return response.json();
     })
     .then(data => {
-        // Hide loading spinner
+        // 隱藏加載中 Spinner
         loadingSpinner.style.display = 'none';
 
-        // Handle the response data
+        // 處理回應數據
         var message = data.message;
         document.getElementById("responseMessage").innerHTML = message;
     })
     .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        document.getElementById('responseMessage').textContent = 'Upload failed: ' + error.message;
+        console.error('發生 fetch 操作問題:', error);
+        document.getElementById('responseMessage').textContent = '上傳失敗: ' + error.message;
 
-        // Hide loading spinner (error case)
+        // 隱藏加載中 Spinner（錯誤情況）
         loadingSpinner.style.display = 'none';
     });
 }
