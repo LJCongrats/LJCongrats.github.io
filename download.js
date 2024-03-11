@@ -11,7 +11,7 @@ function downloadData() {
     var loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';
 
-    fetch("https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/download", {
+    fetch("https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/download", {
         method: 'POST',
         body: requestData
     })
