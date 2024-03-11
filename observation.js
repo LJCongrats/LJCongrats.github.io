@@ -1,50 +1,52 @@
 function uploadFile() {
-        var userName = document.getElementById("name").value;
-        var userID = document.getElementById("userID").value;
-       
-        const fileInput = document.getElementById('fileInput');
-        const api_url = "https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/upload";
+    // 清空上次回應的訊息
+    document.getElementById("responseMessage").innerHTML = '';
 
-        const file = fileInput.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('fileInput', file);
-            formData.append('userID', userID);
-            formData.append('userName', userName);
-            
+    var userName = document.getElementById("name").value;
+    var userID = document.getElementById("userID").value;
 
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            loadingSpinner.style.display = 'block';  // Show loading spinner
+    const fileInput = document.getElementById('fileInput');
+    const api_url = "https://8c3e-2001-288-7001-10d7-9d6b-31a8-27d7-f58d.ngrok-free.app/upload";
 
-            fetch(api_url, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('網路錯誤');
-            })
-            .then(data => {
-                console.log('伺服器回應:', data);
+    const file = fileInput.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('fileInput', file);
+        formData.append('userID', userID);
+        formData.append('userName', userName);
 
-                // Update the HTML with the server's response
-                document.getElementById("responseMessage").innerHTML = data.message;
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
 
-                // You can perform other actions based on the response here
+        fetch(api_url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('網路錯誤');
+        })
+        .then(data => {
+            console.log('伺服器回應:', data);
 
-                // Hide loading spinner after receiving the server response
-                loadingSpinner.style.display = 'none';
-            })
-            .catch(error => {
-                console.error('錯誤:', error);
-                document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
+            // 更新HTML，顯示伺服器的回應
+            document.getElementById("responseMessage").innerHTML = data.message;
 
-                // Hide loading spinner in case of an error
-                loadingSpinner.style.display = 'none';
-            });
-        } else {
-            console.error('No file selected.');
-        }
+            // 這裡你可以根據回應執行其他操作
+
+            // 收到伺服器回應後隱藏加載中 Spinner
+            loadingSpinner.style.display = 'none';.catch(error => {
+            console.error('錯誤:', error);
+            document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
+        })
+        
+
+            // 錯誤情況下隱藏加載中 Spinner
+            loadingSpinner.style.display = 'none';
+        });
+    } else {
+        console.error('未選擇檔案.');
     }
+}
