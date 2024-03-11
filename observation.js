@@ -37,11 +37,11 @@ function uploadFile() {
             // 這裡你可以根據回應執行其他操作
 
             // 收到伺服器回應後隱藏加載中 Spinner
-            loadingSpinner.style.display = 'none';.catch(error => {
+            loadingSpinner.style.display = 'none';
+        })
+        .catch(error => {
             console.error('錯誤:', error);
             document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
-        })
-        
 
             // 錯誤情況下隱藏加載中 Spinner
             loadingSpinner.style.display = 'none';
