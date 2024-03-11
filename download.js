@@ -1,4 +1,6 @@
 function downloadData() {
+    document.getElementById("responseMessage").innerHTML = '';
+    
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
 
