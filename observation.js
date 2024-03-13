@@ -267,12 +267,12 @@ function uploadFile() {
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url_upload1 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_file";
-    const api_url_upload2 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_value";
-    const api_url_upload3 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_vital";
-    const api_url_upload4 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia";
-    const api_url_upload5 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia_media";
-    const api_url_upload6 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_CC_PH_FMH";
+    const api_url_upload1 = "https://acfd-140-116-156-231.ngrok-free.app/upload_file";
+    const api_url_upload2 = "https://acfd-140-116-156-231.ngrok-free.app/upload_obs_value";
+    const api_url_upload3 = "https://acfd-140-116-156-231.ngrok-free.app/upload_obs_vital";
+    const api_url_upload4 = "https://acfd-140-116-156-231.ngrok-free.app/upload_dia";
+    const api_url_upload5 = "https://acfd-140-116-156-231.ngrok-free.app/upload_dia_media";
+    const api_url_upload6 = "https://acfd-140-116-156-231.ngrok-free.app/upload_CC_PH_FMH";
 
     const file = fileInput.files[0];
     if (file) {
