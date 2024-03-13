@@ -267,10 +267,10 @@ function uploadFile() {
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url_upload1 = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload_obs_value";
-    const api_url_upload2 = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload_obs_vital";
-    const api_url_upload3 = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload_dia";
-    const api_url_upload4 = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload_CC_PH_FMH";
+    const api_url_upload1 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_value";
+    const api_url_upload2 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_vital";
+    const api_url_upload3 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia";
+    const api_url_upload4 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_CC_PH_FMH";
 
     const file = fileInput.files[0];
     if (file) {
