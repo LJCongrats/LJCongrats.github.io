@@ -6,7 +6,7 @@
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload";
+    const api_url = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload";
 
     const file = fileInput.files[0];
     if (file) {
@@ -267,10 +267,12 @@ function uploadFile() {
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url_upload1 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_value";
-    const api_url_upload2 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_vital";
-    const api_url_upload3 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia";
-    const api_url_upload4 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_CC_PH_FMH";
+    const api_url_upload1 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_file";
+    const api_url_upload2 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_value";
+    const api_url_upload3 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_obs_vital";
+    const api_url_upload4 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia";
+    const api_url_upload5 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_dia_media";
+    const api_url_upload6 = "https://876e-2001-288-7001-10d7-8835-2e89-488-6f76.ngrok-free.app/upload_CC_PH_FMH";
 
     const file = fileInput.files[0];
     if (file) {
@@ -281,100 +283,171 @@ function uploadFile() {
 
         const loadingSpinner = document.getElementById('loadingSpinner');
         loadingSpinner.style.display = 'block';
-
-        let combinedResponse = '';  // 初始化 combinedResponse
+        loadingSpinner.querySelector('p').innerHTML = '正在解析檔案...';
 
         // 第一階段上傳
         fetch(api_url_upload1, {
             method: 'POST',
             body: formData1
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('網路錯誤');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('伺服器回應 (第一階段):', data);
-            combinedResponse += data.message + '<br>';  // 將第一階段回應添加到 combinedResponse
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第一階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
 
-            // 第二階段上傳
-            const formData2 = new FormData();
-            formData2.append('fileInput', file);
-            formData2.append('userID', userID);
-            formData2.append('userName', userName);
+                if (data.message === "檔案解析完成") {
+                    // 隱藏加載中 Spinner
+                    loadingSpinner.style.display = 'none';
 
-            return fetch(api_url_upload2, {
-                method: 'POST',
-                body: formData2
+                    // 第二階段上傳
+                    const formData2 = new FormData();
+                    formData2.append('fileInput', file);
+                    formData2.append('userID', userID);
+                    formData2.append('userName', userName);
+                    loadingSpinner.style.display = 'block';
+                    loadingSpinner.querySelector('p').innerHTML = '正在上傳實驗室檢驗數據...';
+
+                    return fetch(api_url_upload2, {
+                        method: 'POST',
+                        body: formData2
+                    });
+                } else {
+                    // 如果回應不是 "檔案解析完成"，停止流程
+                    throw new Error('檔案解析失敗');
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第二階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
+                loadingSpinner.style.display = 'none';
+
+                // 第三階段上傳
+                const formData3 = new FormData();
+                formData3.append('fileInput', file);
+                formData3.append('userID', userID);
+                formData3.append('userName', userName);
+                loadingSpinner.style.display = 'block';
+                loadingSpinner.querySelector('p').innerHTML = '正在上傳生命體徵數據...';
+
+                return fetch(api_url_upload3, {
+                    method: 'POST',
+                    body: formData3
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第三階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
+                loadingSpinner.style.display = 'none';
+
+                // 第四階段上傳
+                const formData4 = new FormData();
+                formData4.append('fileInput', file);
+                formData4.append('userID', userID);
+                formData4.append('userName', userName);
+                loadingSpinner.style.display = 'block';
+                loadingSpinner.querySelector('p').innerHTML = '正在上傳診斷報告...';
+
+                return fetch(api_url_upload4, {
+                    method: 'POST',
+                    body: formData4
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第四階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
+                loadingSpinner.style.display = 'none';
+
+                // 第五階段上傳
+                const formData5 = new FormData();
+                formData5.append('fileInput', file);
+                formData5.append('userID', userID);
+                formData5.append('userName', userName);
+                loadingSpinner.style.display = 'block';
+                loadingSpinner.querySelector('p').innerHTML = '正在上傳診斷報告...';
+
+                return fetch(api_url_upload5, {
+                    method: 'POST',
+                    body: formData5
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第五階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
+                loadingSpinner.style.display = 'none';
+
+                // 第六階段上傳
+                const formData6 = new FormData();
+                formData6.append('fileInput', file);
+                formData6.append('userID', userID);
+                formData6.append('userName', userName);
+                loadingSpinner.style.display = 'block';
+                loadingSpinner.querySelector('p').innerHTML = '正在上傳病患主訴、過去病史、家族病史...';
+
+                return fetch(api_url_upload6, {
+                    method: 'POST',
+                    body: formData6
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網路錯誤');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('伺服器回應 (第六階段):', data);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
+            })
+            .catch(error => {
+                console.error('錯誤:', error);
+                // 在最前面插入新的訊息
+                document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', '上傳失敗: ' + error.message + '<br>');
+            })
+            .finally(() => {
+                // 隱藏加載中 Spinner
+                loadingSpinner.style.display = 'none';
             });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('網路錯誤');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('伺服器回應 (第二階段):', data);
-            combinedResponse += data.message + '<br>';  // 將第二階段回應添加到 combinedResponse
-
-            // 第三階段上傳
-            const formData3 = new FormData();
-            formData3.append('fileInput', file);
-            formData3.append('userID', userID);
-            formData3.append('userName', userName);
-
-            return fetch(api_url_upload3, {
-                method: 'POST',
-                body: formData3
-            });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('網路錯誤');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('伺服器回應 (第三階段):', data);
-            combinedResponse += data.message + '<br>';  // 將第三階段回應添加到 combinedResponse
-
-            // 第四階段上傳
-            const formData4 = new FormData();
-            formData4.append('fileInput', file);
-            formData4.append('userID', userID);
-            formData4.append('userName', userName);
-
-            return fetch(api_url_upload4, {
-                method: 'POST',
-                body: formData4
-            });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('網路錯誤');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('伺服器回應 (第四階段):', data);
-            combinedResponse += data.message;  // 將第四階段回應添加到 combinedResponse
-
-            // 更新HTML
-            document.getElementById("responseMessage").innerHTML = combinedResponse;
-
-            // 隱藏加載中 Spinner
-            loadingSpinner.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('錯誤:', error);
-            document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
-            loadingSpinner.style.display = 'none';
-        });
     } else {
         console.error('未選擇檔案.');
     }
 }
+
+
+
+
 
