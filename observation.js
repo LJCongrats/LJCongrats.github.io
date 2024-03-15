@@ -302,6 +302,7 @@ function uploadFile() {
                 document.getElementById("responseMessage").insertAdjacentHTML('afterbegin', data.message + '<br>');
 
                 if (data.message === "檔案解析完成") {
+					
                     // 隱藏加載中 Spinner
                     loadingSpinner.style.display = 'none';
 
@@ -317,10 +318,13 @@ function uploadFile() {
                         method: 'POST',
                         body: formData2
                     });
-                } else {
+                } else if(data.message === "查無此病患，可能原因如下:<br>1. 病患姓名或身分證字號輸入錯誤<br>2. 伺服器中無此病患資料，請先至「上傳病患資料/Patient」建立病患資料<br>3. 若為剛剛新建立的病患，請稍待數秒後再上傳檔案"){
+				throw new Error('');}
+					else if(data.message === "目前系統僅可處理以下檔案: .docx, .pdf<br>請重新選擇檔案"){
                     // 如果回應不是 "檔案解析完成"，停止流程
-                    throw new Error('檔案解析失敗');
-                }
+                    throw new Error('');}
+					else 
+					throw new Error('檔案解析失敗');
             })
             .then(response => {
                 if (!response.ok) {
