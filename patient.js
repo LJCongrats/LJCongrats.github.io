@@ -1,4 +1,5 @@
 function uploadFhirData() {
+    document.getElementById("responseMessage").innerHTML = '';
     // 從表單字段中獲取數據
     var Uname = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
