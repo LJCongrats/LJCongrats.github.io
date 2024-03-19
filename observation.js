@@ -267,12 +267,12 @@ function uploadFile() {
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url_upload1 = "https://7e13-140-116-156-231.ngrok-free.app/upload_file";
-    const api_url_upload2 = "https://7e13-140-116-156-231.ngrok-free.app/upload_obs_value";
-    const api_url_upload3 = "https://7e13-140-116-156-231.ngrok-free.app/upload_obs_vital";
-    const api_url_upload4 = "https://7e13-140-116-156-231.ngrok-free.app/upload_dia";
-    const api_url_upload5 = "https://7e13-140-116-156-231.ngrok-free.app/upload_dia_media";
-    const api_url_upload6 = "https://7e13-140-116-156-231.ngrok-free.app/upload_CC_PH_FMH";
+    const api_url_upload1 = "https://fd13-140-116-156-231.ngrok-free.app/upload_file";
+    const api_url_upload2 = "https://fd13-140-116-156-231.ngrok-free.app/upload_obs_value";
+    const api_url_upload3 = "https://fd13-140-116-156-231.ngrok-free.app/upload_obs_vital";
+    const api_url_upload4 = "https://fd13-140-116-156-231.ngrok-free.app/upload_dia";
+    const api_url_upload5 = "https://fd13-140-116-156-231.ngrok-free.app/upload_dia_media";
+    const api_url_upload6 = "https://fd13-140-116-156-231.ngrok-free.app/upload_CC_PH_FMH";
 
     const file = fileInput.files[0];
     if (file) {
