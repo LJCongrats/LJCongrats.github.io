@@ -3,7 +3,6 @@ function uploadFhirData() {
     // 從表單字段中獲取數據
     var Uname = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
-    var valueAge = document.getElementById("valueAge").value;
     var birthdate = document.getElementById("birthdate").value;
     var gender = document.getElementById("gender").value;
 
@@ -11,7 +10,6 @@ function uploadFhirData() {
     var formData = new FormData();
     formData.append('userName', Uname);
     formData.append('userID', userID);
-    formData.append('userAge', valueAge);
     formData.append('userBirthdate', birthdate);
     formData.append('userGender', gender);
 
