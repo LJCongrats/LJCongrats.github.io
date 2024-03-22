@@ -6,7 +6,7 @@
     var userID = document.getElementById("userID").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url = "https://b3bd-2001-288-7001-10d7-c8b4-1a41-cbe5-1d52.ngrok-free.app/upload";
+    const api_url = "https://e842-140-116-156-231.ngrok-free.app/upload";
 
     const file = fileInput.files[0];
     if (file) {
