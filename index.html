@@ -7,30 +7,30 @@
 
     <style>
         body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            font-size: 22px;
-            background-color: #d3d3d3; /* 整個網頁背景為淺灰色 */
-        }
+		display: flex;
+		font-family: Arial, sans-serif;
+		margin: 0;
+		font-size: 22px;
+		background-color: #d3d3d3; /* 整個網頁背景為淺灰色 */
+		}
 
-        h1 {
+        }
+		 h1 {
             margin-top: 50px;
             font-size: 40px;
             color: #000000;
             background-color: #d3d3d3; /* 調整標題背景色為淺灰色 */
             padding: 20px; /* 添加標題的內邊距，使其看起來更美觀 */
-            text-align: center; /* 居中標題 */
         }
 
         nav {
-            background-color: #333;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            width: 240px;
-            height: 100vh; /* Set a fixed height using viewport height (100vh) */
-        }
+			background-color: #333;
+			color: white;
+			padding: 15px;
+			text-align: center;
+			width: 240px;
+			height:100vh; /* Set a fixed height using viewport height (100vh) */
+		}
 
         nav button {
             width: 100%;
@@ -52,25 +52,28 @@
             padding: 20px;
         }
 
+        h1 {
+            font-size: 40px;
+            color: #000000;
+            margin: 0;
+        }
+
         form {
-            text-align: left;
-            margin-top: 10px; /* 調整表單元素之間的間距 */
-            display: flex;
-            flex-direction: column; /* 將表單元素排成一列 */
-            align-items: center; /* 對齊所有元素到中央 */
-        }
+			text-align: left;
+			margin-top: 10px; /* 調整表單元素之間的間距 */
+		}
 
-        label {
-            font-size: 20px; /* 设置label元素的字体大小为20像素 */
-            margin-bottom: 10px; /* 添加底邊距，使其與其他元素分隔開 */
-        }
+		label {
+			font-size: 20px; /* 设置label元素的字体大小为20像素 */
+			display: flex; /* 将label元素设为flex布局 */
+			align-items: center; /* 垂直居中对齐 */
+		}
 
-        input, select {
-            font-size: 20px; /* 设置输入框的字体大小为20像素 */
-            padding: 8px; /* 设置输入框的内边距 */
-            margin-bottom: 10px; /* 添加底邊距，使其與其他元素分隔開 */
-            width: 240px; /* 調整寬度 */
-        }
+		input {
+			font-size: 20px; /* 设置输入框的字体大小为20像素 */
+			padding: 8px; /* 设置输入框的内边距 */
+			margin-left: 10px; /* 添加一些左边距，与label文字分隔开 */
+		}
 
         button {
             width: 240px;
@@ -80,17 +83,15 @@
             color: white;
             border: none;
             transition: background-color 0.3s;
-            cursor: pointer;
         }
 
         button:hover {
             background-color: #555;
         }
-
-        #loadingSpinner {
-            display: none;
-            text-align: center;
-        }
+	select#gender {
+	    width: 240px; /* 調整寬度為200像素 */
+	    font-size: 22px; /* 調整字體大小為18像素 */
+	}
 
     </style>
     <script src="./patient.js"></script>
