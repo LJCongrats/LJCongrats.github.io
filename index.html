@@ -125,7 +125,12 @@
             <input type="text" id="birthdate" placeholder="xxxx-xx-xx">  
             <br><br>
             <label for="gender">性別</label>
-            <input type="text" id="gender" placeholder="male, female, unknown, other"> 
+		<select id="gender">
+		    <option value="male">男性</option>
+		    <option value="female">女性</option>
+		    <option value="unknown">未知</option>
+		    <option value="others">其他</option>
+		</select>
             <br><br>
             <button type="button"onclick="uploadFhirData()">送出</button>
 			<br><br>
