@@ -4,7 +4,8 @@ function uploadFhirData() {
     var Uname = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
     var birthdate = document.getElementById("birthdate").value;
-    var gender = document.getElementById("gender").value;
+    var genderSelect = document.getElementById("gender");
+    var gender = genderSelect.options[genderSelect.selectedIndex].value;
 
     // 準備表單數據
     var formData = new FormData();
