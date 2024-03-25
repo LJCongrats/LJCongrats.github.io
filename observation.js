@@ -19,6 +19,7 @@ function uploadFile() {
 
         const loadingSpinner = document.getElementById('loadingSpinner');
         loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
+	loadingSpinner.querySelector('p').innerHTML = '正在上傳檔案...';
 
         fetch(api_url, {
             method: 'POST',
