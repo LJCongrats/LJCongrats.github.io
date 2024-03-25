@@ -1,9 +1,10 @@
-/*function uploadFile() {
+function uploadFile() {
     // 清空上次回應的訊息
     document.getElementById("responseMessage").innerHTML = '';
 
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
+    var userEmail = document.getElementById("email").value;
 
     const fileInput = document.getElementById('fileInput');
     const api_url = "https://e842-140-116-156-231.ngrok-free.app/upload";
@@ -14,6 +15,7 @@
         formData.append('fileInput', file);
         formData.append('userID', userID);
         formData.append('userName', userName);
+	formData.append('userEmail', userEmail);
 
         const loadingSpinner = document.getElementById('loadingSpinner');
         loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
@@ -49,7 +51,7 @@
     } else {
         console.error('未選擇檔案.');
     }
-}*/
+}
 
 /*function uploadFile() {
     document.getElementById("responseMessage").innerHTML = '';
@@ -260,7 +262,7 @@ if (file) {
     console.error('未選擇檔案.');
 }*/
 
-function uploadFile() {
+/*function uploadFile() {
     document.getElementById("responseMessage").innerHTML = '';
 
     var userName = document.getElementById("name").value;
@@ -449,7 +451,7 @@ function uploadFile() {
     } else {
         console.error('未選擇檔案.');
     }
-}
+}*/
 
 
 
