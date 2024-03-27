@@ -97,7 +97,6 @@
         <button onclick="showPatientInfo()">上傳病患資料/Patient</button>
         <button onclick="showDiagnosisInfo()">上傳病歷檔案/Upload</button>
         <button onclick="showDownload()">下載病歷報告/Download</button>
-		<button onclick="showAllPatients()">查看病患資訊</button>
     </nav>
 
     <main id="content">
@@ -189,31 +188,6 @@
 					<div id="responseMessage"></div>
                 </form>`;
         }
-		function showAllPatients() {
-			fetch('https://0e3c-140-116-156-231.ngrok-free.app/Patient', {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
-			.then(response => response.json())
-			.then(data => {
-				let html = '<h1 style="text-align: center;">所有病患資訊</h1>';
-				html += '<table border="1">';
-				html += '<tr><th>ID</th><th>姓名</th><th>性別</th><th>生日</th></tr>';
-				data.entry.forEach(entry => {
-					const id = entry.resource.id;
-					const name = entry.resource.name[0].given.join(' ') + ' ' + entry.resource.name[0].family;
-					const gender = entry.resource.gender;
-					const birthdate = entry.resource.birthDate;
-					html += `<tr><td>${id}</td><td>${name}</td><td>${gender}</td><td>${birthdate}</td></tr>`;
-				});
-				html += '</table>';
-				document.getElementById("content").innerHTML = html;
-			})
-			.catch(error => console.error('Error fetching data:', error));
-		}
-
     </script>
 </body>
 </html>
