@@ -107,7 +107,6 @@
     </main>
 
     <script>
-	    let currentState = '';
         function showPatientInfo() {
     document.getElementById("content").innerHTML = `
         <h1 style="text-align: center;">電子病歷資訊網站</h1>
@@ -252,7 +251,6 @@
 		}
 
 		function showAllPatients() {
-			currentState = 'allPatients';
 			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器 URL
 			uploadPatientInfo(url);
 		}
@@ -317,7 +315,6 @@
 		}
 
 		function DiagnosticReport(patientId) {
-			currentState = 'diagnosticReport';
 			// 构建包含病患 ID 的 FormData
 			const data = new FormData();
 			data.append('userURL', `/DiagnosticReport?patient=${patientId}`);
@@ -344,7 +341,7 @@
 				html += '<col style="width: 5%;">'; // 第一列的宽度为10%
 				html += '<col style="width: 20%;">'; // 第二列的宽度为30%
 				html += '<col style="width: 10%;">'; // 第三列的宽度为30%
-				hshowDiagnosisInfotml += '<col style="width: 65%;">'; // 第四列的宽度为30%
+				html += '<col style="width: 65%;">'; // 第四列的宽度为30%
 				html += '</colgroup>';
 
 				html += '<tr><th>ID</th><th>診斷報告</th><th>日期</th><th>診斷結果</th></tr>';
@@ -378,19 +375,8 @@
 			.catch(error => {
 				console.error('Error fetching data:', error);
 			});
-			showBackButton();
+
 		}
-	    	function showBackButton() {
-            const backButton = document.createElement('button');
-            backButton.textContent = '返回';
-            backButton.onclick = function() {
-                if (currentState === 'diagnosticReport') {
-                    showAllPatients(); // 返回到显示所有病患信息的状态
-                }
-                // 其他可能的状态
-            };
-            document.getElementById('content').appendChild(backButton);
-        }
 
 
 
