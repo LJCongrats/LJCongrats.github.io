@@ -220,8 +220,8 @@
 			data.append('userURL', '/Patient'); // 將字符串 'Patient' 添加到 FormData 中，以鍵名 'userURL'
 
 			fetch(url, {
-				method: 'POST', 
-				body: data 
+				method: 'POST',
+				body: data
 			})
 			.then(response => {
 				if (!response.ok) {
@@ -232,15 +232,16 @@
 			.then(data => {
 				let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
 				html += '<table border="1">';
-				html += '<tr><th>ID</th><th>姓名</th><th>性別</th><th>生日</th></tr>';
-				data.entry.forEach(entry => {
-					const id = entry.resource.id;
-					let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
-					const gender = entry.resource.gender;
-					const birthdate = entry.resource.birthDate;
-					// 在病患名字周圍添加一個連結，並將 onclick 事件設置為調用 showObservations 函數
-					html += `<tr><td>${id}</td><td><a href="#" onclick="showObservations('${id}')">${name}</a></td><td>${gender}</td><td>${birthdate}</td></tr>`;
-				});
+				html += '<tr><th>ID</th><th>姓名</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
+			data.entry.forEach(entry => {
+				const id = entry.resource.id;
+				let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
+				const gender = entry.resource.gender;
+				const birthdate = entry.resource.birthDate;
+				// 在病患名字周围添加一个链接，点击后调用 showObservations 函数
+				html += `<tr><td>${id}</td><td>${name}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td></tr>`;
+			});
+
 				html += '</table>';
 				document.getElementById("content").innerHTML = html;
 			})
@@ -274,25 +275,34 @@
 			.then(data => {
 				const jsonData = JSON.parse(data); // 解析JSON数据
 
-				let html = '<h1 style="text-align: center;">實驗室數據</h1>';
+				let html = '<h1 style="text-align: center;">檢測數據</h1>';
 				html += '<table border="1">';
-				html += '<tr><th>ID</th><th>檢測項目</th><th>數值</th><th>單位</th></tr>';
+				html += '<tr><th>ID</th><th>檢測項目</th><th>數值</th><th>單位</th><th>日期</th></tr>';
 
-				// 假设您的数据存储在名为jsonData的变量中
-				jsonData.entry.forEach(entry => {
-					const id = entry.resource.id;
-					const codeText = entry.resource.code.text;
-					let value = '';
-					let unit = '';
+				// 检查 entry 属性是否存在并且是一个数组
+				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+					jsonData.entry.forEach(entry => {
+						const id = entry.resource.id;
+						const codeText = entry.resource.code.text;
+						let value = '';
+						let unit = '';
+						let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
 
-					if (entry.resource.hasOwnProperty('valueQuantity')) {
-						value = entry.resource.valueQuantity.value;
-						unit = entry.resource.valueQuantity.unit;
-					}
+						if (entry.resource.hasOwnProperty('valueQuantity')) {
+							value = entry.resource.valueQuantity.value;
+							unit = entry.resource.valueQuantity.unit;
+						}
 
-					// 将表格行添加到HTML字符串中
-					html += `<tr><td>${id}</td><td>${codeText}</td><td>${value}</td><td>${unit}</td></tr>`;
-				});
+						if (entry.resource.hasOwnProperty('effectiveDateTime')) {
+							effectiveDateTime = entry.resource.effectiveDateTime;
+						}
+
+						// 将表格行添加到HTML字符串中
+						html += `<tr><td>${id}</td><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
+					});
+				} else {
+					console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+				}
 
 				html += '</table>';
 				document.getElementById("content").innerHTML = html;
@@ -303,6 +313,63 @@
 			});
 
 		}
+
+		function DiagnosticReport(patientId) {
+			// 构建包含病患 ID 的 FormData
+			const data = new FormData();
+			data.append('userURL', `/DiagnosticReport?patient=${patientId}`);
+
+			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+
+			fetch(url, {
+				method: 'POST',
+				body: data
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.text();
+			})
+			.then(data => {
+				const jsonData = JSON.parse(data); // 解析JSON数据
+
+				let html = '<h1 style="text-align: center;">診斷報告</h1>';
+				html += '<table border="1">';
+				html += '<tr><th>ID</th><th>診斷報告</th><th>日期</th><th>診斷結果</th></tr>';
+
+				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+					jsonData.entry.forEach(entry => {
+						const id = entry.resource.id;
+						const codeText = entry.resource.code.text;
+						let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
+						let conclusion = ''; // 添加 conclusion 变量
+
+						if (entry.resource.hasOwnProperty('effectiveDateTime')) {
+							effectiveDateTime = entry.resource.effectiveDateTime;
+						}
+
+						if (entry.resource.hasOwnProperty('conclusion')) {
+							conclusion = entry.resource.conclusion;
+						}
+
+						// 将表格行添加到HTML字符串中
+						html += `<tr><td>${id}</td><td>${codeText}</td><td>${effectiveDateTime}</td><td>${conclusion}</td></tr>`;
+					});
+				} else {
+					console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+				}
+
+				html += '</table>';
+				document.getElementById("content").innerHTML = html;
+
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error);
+			});
+		}
+
+
 
 
 
