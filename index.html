@@ -344,7 +344,7 @@
 				html += '<col style="width: 5%;">'; // 第一列的宽度为10%
 				html += '<col style="width: 20%;">'; // 第二列的宽度为30%
 				html += '<col style="width: 10%;">'; // 第三列的宽度为30%
-				html += '<col style="width: 65%;">'; // 第四列的宽度为30%
+				hshowDiagnosisInfotml += '<col style="width: 65%;">'; // 第四列的宽度为30%
 				html += '</colgroup>';
 
 				html += '<tr><th>ID</th><th>診斷報告</th><th>日期</th><th>診斷結果</th></tr>';
@@ -378,7 +378,7 @@
 			.catch(error => {
 				console.error('Error fetching data:', error);
 			});
-
+			showBackButton();
 		}
 	    	function showBackButton() {
             const backButton = document.createElement('button');
