@@ -107,6 +107,7 @@
     </main>
 
     <script>
+	    let currentState = '';
         function showPatientInfo() {
     document.getElementById("content").innerHTML = `
         <h1 style="text-align: center;">電子病歷資訊網站</h1>
@@ -251,6 +252,7 @@
 		}
 
 		function showAllPatients() {
+			currentState = 'allPatients';
 			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器 URL
 			uploadPatientInfo(url);
 		}
@@ -315,6 +317,7 @@
 		}
 
 		function DiagnosticReport(patientId) {
+			currentState = 'diagnosticReport';
 			// 构建包含病患 ID 的 FormData
 			const data = new FormData();
 			data.append('userURL', `/DiagnosticReport?patient=${patientId}`);
@@ -377,6 +380,17 @@
 			});
 
 		}
+	    	function showBackButton() {
+            const backButton = document.createElement('button');
+            backButton.textContent = '返回';
+            backButton.onclick = function() {
+                if (currentState === 'diagnosticReport') {
+                    showAllPatients(); // 返回到显示所有病患信息的状态
+                }
+                // 其他可能的状态
+            };
+            document.getElementById('content').appendChild(backButton);
+        }
 
 
 
