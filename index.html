@@ -232,16 +232,31 @@
 			.then(data => {
 				let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
 				html += '<table border="1">';
-				html += '<tr><th>ID</th><th>姓名</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
-			data.entry.forEach(entry => {
-				const id = entry.resource.id;
-				let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
-				const gender = entry.resource.gender;
-				const birthdate = entry.resource.birthDate;
-				// 在病患名字周围添加一个链接，点击后调用 showObservations 函数
-				html += `<tr><td>${id}</td><td>${name}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td></tr>`;
-			});
+				html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
+				
+				data.entry.forEach(entry => {
+					// 排除 ID 为 147 的条目
+					if (entry.resource.id !== '147') {
+						const id = entry.resource.id;
+						let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
+						const gender = entry.resource.gender;
+						const birthdate = entry.resource.birthDate;
 
+						// 查找身份证标识符的值
+						let identifierValue = '';
+						if (entry.resource.identifier && Array.isArray(entry.resource.identifier)) {
+							// 遍历所有标识符
+							entry.resource.identifier.forEach(identifier => {
+								if (identifier.value) {
+									identifierValue = identifier.value;
+								}
+							});
+						}
+
+						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${identifierValue}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${identifierValue}')">查看診斷報告</button></td></tr>`;
+					}
+				}); 
+				
 				html += '</table>';
 				document.getElementById("content").innerHTML = html;
 			})
