@@ -140,8 +140,7 @@
         </form>`;
 	}
 
-
-        function showDiagnosisInfo() {
+		function showDiagnosisInfo() {
             document.getElementById("content").innerHTML = `
                 <h1 style="text-align: center;">電子病歷資訊網站</h1>
 				<h2>上傳病歷檔案</h2>
@@ -168,6 +167,7 @@
                     <div id="responseMessage"></div>
                 </form>`;
         }
+      
 
         function showDownload() {
             document.getElementById("content").innerHTML = `
@@ -232,16 +232,31 @@
 			.then(data => {
 				let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
 				html += '<table border="1">';
-				html += '<tr><th>ID</th><th>姓名</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
-			data.entry.forEach(entry => {
-				const id = entry.resource.id;
-				let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
-				const gender = entry.resource.gender;
-				const birthdate = entry.resource.birthDate;
-				// 在病患名字周围添加一个链接，点击后调用 showObservations 函数
-				html += `<tr><td>${id}</td><td>${name}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td></tr>`;
-			});
+				html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
+				
+				data.entry.forEach(entry => {
+					// 排除 ID 为 147 的条目
+					if (entry.resource.id !== '147') {
+						const id = entry.resource.id;
+						let name = entry.resource.name && entry.resource.name[0] && entry.resource.name[0].text ? entry.resource.name[0].text : '';
+						const gender = entry.resource.gender;
+						const birthdate = entry.resource.birthDate;
 
+						// 查找身份证标识符的值
+						let identifierValue = '';
+						if (entry.resource.identifier && Array.isArray(entry.resource.identifier)) {
+							// 遍历所有标识符
+							entry.resource.identifier.forEach(identifier => {
+								if (identifier.value) {
+									identifierValue = identifier.value;
+								}
+							});
+						}
+
+						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td></tr>`;
+					}
+				}); 
+				
 				html += '</table>';
 				document.getElementById("content").innerHTML = html;
 			})
@@ -311,6 +326,7 @@
 			.catch(error => {
 				console.error('Error fetching data:', error);
 			});
+			
 
 		}
 
@@ -332,16 +348,15 @@
 				return response.text();
 			})
 			.then(data => {
-				const jsonData = JSON.parse(data); // 解析JSON数据
+				const jsonData = JSON.parse(data); 
 
 				let html = '<h1 style="text-align: center;">診斷報告</h1>';
-				html += '<table border="1" style="width: 100%; table-layout: fixed;">'; // 指定表格的宽度为100%并固定布局
-
-				html += '<colgroup>'; // 利用colgroup标签指定每列的宽度
-				html += '<col style="width: 5%;">'; // 第一列的宽度为10%
-				html += '<col style="width: 20%;">'; // 第二列的宽度为30%
-				html += '<col style="width: 10%;">'; // 第三列的宽度为30%
-				html += '<col style="width: 65%;">'; // 第四列的宽度为30%
+				html += '<table border="1" style="width: 100%; table-layout: fixed;">'; 
+				html += '<colgroup>'; 
+				html += '<col style="width: 5%;">'; 
+				html += '<col style="width: 20%;">'; 
+				html += '<col style="width: 10%;">'; 
+				html += '<col style="width: 65%;">'; 
 				html += '</colgroup>';
 
 				html += '<tr><th>ID</th><th>診斷報告</th><th>日期</th><th>診斷結果</th></tr>';
@@ -350,8 +365,8 @@
 					jsonData.entry.forEach(entry => {
 						const id = entry.resource.id;
 						const codeText = entry.resource.code.text;
-						let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
-						let conclusion = ''; // 添加 conclusion 变量
+						let effectiveDateTime = ''; 
+						let conclusion = ''; 
 
 						if (entry.resource.hasOwnProperty('effectiveDateTime')) {
 							effectiveDateTime = entry.resource.effectiveDateTime;
@@ -365,7 +380,7 @@
 						html += `<tr><td>${id}</td><td>${codeText}</td><td>${effectiveDateTime}</td><td>${conclusion}</td></tr>`;
 					});
 				} else {
-					console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+					console.error('Error: Data structure is invalid.'); 
 				}
 
 				html += '</table>';
