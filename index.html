@@ -71,7 +71,7 @@
         }
 
         button {
-            width: 240px;
+            width: 200px;
             height: 80px;
             font-size: 22px;
             background-color: #808080;
@@ -89,6 +89,7 @@
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
     <script src="./download.js"></script>
+	<script src="./card.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -131,6 +132,8 @@
 		</select>
             <br><br>
             <button type="button"onclick="uploadFhirData()">送出</button>
+			<br><br>
+			<button type="button"onclick="card()">使用健保卡建檔</button>
 			<br><br>
 					<div id="loadingSpinner" style="display: none; text-align: center;">
                     <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
@@ -232,7 +235,7 @@
 			.then(data => {
 				let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
 				html += '<table border="1">';
-				html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th></tr>';
+				html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>查看檢測數據</th><th>查看診斷報告</th><th>查看主訴</th><th>查看過去病史</th><th>查看家族病史</th></tr>';
 				
 				data.entry.forEach(entry => {
 					// 排除 ID 为 147 的条目
@@ -253,7 +256,7 @@
 							});
 						}
 
-						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td></tr>`;
+						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td><td><button onclick="chiefcomplaint('${id}')">查看主訴</button></td><td><button onclick="PastHistory('${id}')">查看過去病史</button></td><td><button onclick="Familyhistory('${id}')">查看家族病史</button></td></tr>`;
 					}
 				}); 
 				
@@ -392,7 +395,176 @@
 			});
 
 		}
+		
+		
+		
+		
+		function chiefcomplaint(patientId) {
+			const data = new FormData();
+			data.append('userURL', `/Condition?_text=%27主訴%27&patient=${patientId}`);
 
+			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+
+			fetch(url, {
+				method: 'POST',
+				body: data
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.text();
+			})
+			.then(data => {
+				const jsonData = JSON.parse(data); 
+
+				let html = '<h1 style="text-align: center;">主訴</h1>';
+				html += '<table border="1">';
+				html += '<tr><th>主訴內容</th><th>日期</th></tr>';
+
+				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+					jsonData.entry.forEach(entry => {
+						const id = entry.resource.id;
+						const codeText = entry.resource.code.text;
+						let onsetDateTime = ''; 
+						let conclusion = ''; 
+
+						if (entry.resource.hasOwnProperty('onsetDateTime')) {
+							onsetDateTime = entry.resource.onsetDateTime;
+						}
+
+						if (entry.resource.hasOwnProperty('conclusion')) {
+							conclusion = entry.resource.conclusion;
+						}
+
+						// 将表格行添加到HTML字符串中
+						html += `<tr><td>${codeText}</td><td>${onsetDateTime}</td></tr>`;
+					});
+				} else {
+					console.error('Error: Data structure is invalid.'); 
+				}
+
+				html += '</table>';
+				document.getElementById("content").innerHTML = html;
+
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error);
+			});
+		}
+		
+		
+		
+		
+		function PastHistory(patientId) {
+			const data = new FormData();
+			data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
+
+			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+
+			fetch(url, {
+				method: 'POST',
+				body: data
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.text();
+			})
+			.then(data => {
+				const jsonData = JSON.parse(data); 
+
+				let html = '<h1 style="text-align: center;">過去病史</h1>';
+				html += '<table border="1">';
+				html += '<tr><th>過去病史</th></tr>';
+
+				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+					jsonData.entry.forEach(entry => {
+						const id = entry.resource.id;
+						const codeText = entry.resource.code.text;
+						let onsetDateTime = ''; 
+						let conclusion = ''; 
+
+						if (entry.resource.hasOwnProperty('onsetDateTime')) {
+							onsetDateTime = entry.resource.onsetDateTime;
+						}
+
+						if (entry.resource.hasOwnProperty('conclusion')) {
+							conclusion = entry.resource.conclusion;
+						}
+
+						// 将表格行添加到HTML字符串中
+						html += `<tr><td>${codeText}</td></tr>`;
+					});
+				} else {
+					console.error('Error: Data structure is invalid.'); 
+				}
+
+				html += '</table>';
+				document.getElementById("content").innerHTML = html;
+
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error);
+			});
+		}
+		
+		
+		
+		
+		
+		function Familyhistory(patientId) {
+			const data = new FormData();
+			data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
+
+			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+
+			fetch(url, {
+				method: 'POST',
+				body: data
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.text();
+			})
+			.then(data => {
+				const jsonData = JSON.parse(data); 
+
+				let html = '<h1 style="text-align: center;">家族病史</h1>';
+				html += '<table border="1">';
+				html += '<tr><th>家族病史</th></tr>';
+
+				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+					jsonData.entry.forEach(entry => {
+						let conditionText = ''; 
+
+						if (entry.resource.hasOwnProperty('condition') && Array.isArray(entry.resource.condition)) {
+							entry.resource.condition.forEach(condition => {
+								if (condition.code && condition.code.text) {
+									conditionText = condition.code.text;
+								}
+							});
+						}
+
+						// 将表格行添加到HTML字符串中
+						html += `<tr><td>${conditionText}</td></tr>`;
+					});
+				}
+				 else {
+					console.error('Error: Data structure is invalid.'); 
+				}
+
+				html += '</table>';
+				document.getElementById("content").innerHTML = html;
+
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error);
+			});
+		}
 
 
 
