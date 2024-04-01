@@ -89,6 +89,7 @@
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
     <script src="./download.js"></script>
+	<script src="./card.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -131,6 +132,8 @@
 		</select>
             <br><br>
             <button type="button"onclick="uploadFhirData()">送出</button>
+			<br><br>
+			<button type="button"onclick="card()">使用健保卡建檔</button>
 			<br><br>
 					<div id="loadingSpinner" style="display: none; text-align: center;">
                     <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
@@ -320,15 +323,19 @@
 				}
 
 				html += '</table>';
+				// 添加距离
+				html += '<br><br>';
+				// 添加上一页按钮
+				html += '<button onclick="showAllPatients()">上一頁</button>';
 				document.getElementById("content").innerHTML = html;
 
 			})
 			.catch(error => {
 				console.error('Error fetching data:', error);
 			});
-			
-
 		}
+
+
 
 		function DiagnosticReport(patientId) {
 			// 构建包含病患 ID 的 FormData
@@ -384,6 +391,11 @@
 				}
 
 				html += '</table>';
+
+				// 添加距离
+				html += '<br><br>';
+				// 添加上一页按钮
+				html += '<button onclick="showAllPatients()">上一頁</button>';
 				document.getElementById("content").innerHTML = html;
 
 			})
@@ -392,176 +404,186 @@
 			});
 
 		}
+
 		
 		
 		
 		
 		function chiefcomplaint(patientId) {
-			const data = new FormData();
-			data.append('userURL', `/Condition?_text=%27主訴%27&patient=${patientId}`);
+    const data = new FormData();
+    data.append('userURL', `/Condition?_text=%27主訴%27&patient=${patientId}`);
 
-			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
-			fetch(url, {
-				method: 'POST',
-				body: data
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {
-				const jsonData = JSON.parse(data); 
+    fetch(url, {
+        method: 'POST',
+        body: data
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        const jsonData = JSON.parse(data); 
 
-				let html = '<h1 style="text-align: center;">主訴</h1>';
-				html += '<table border="1">';
-				html += '<tr><th>主訴內容</th><th>日期</th></tr>';
+        let html = '<h1 style="text-align: center;">主訴</h1>';
+        html += '<table border="1">';
+        html += '<tr><th>主訴內容</th><th>日期</th></tr>';
 
-				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-					jsonData.entry.forEach(entry => {
-						const id = entry.resource.id;
-						const codeText = entry.resource.code.text;
-						let onsetDateTime = ''; 
-						let conclusion = ''; 
+        if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+            jsonData.entry.forEach(entry => {
+                const id = entry.resource.id;
+                const codeText = entry.resource.code.text;
+                let onsetDateTime = ''; 
+                let conclusion = ''; 
 
-						if (entry.resource.hasOwnProperty('onsetDateTime')) {
-							onsetDateTime = entry.resource.onsetDateTime;
-						}
+                if (entry.resource.hasOwnProperty('onsetDateTime')) {
+                    onsetDateTime = entry.resource.onsetDateTime;
+                }
 
-						if (entry.resource.hasOwnProperty('conclusion')) {
-							conclusion = entry.resource.conclusion;
-						}
+                if (entry.resource.hasOwnProperty('conclusion')) {
+                    conclusion = entry.resource.conclusion;
+                }
 
-						// 将表格行添加到HTML字符串中
-						html += `<tr><td>${codeText}</td><td>${onsetDateTime}</td></tr>`;
-					});
-				} else {
-					console.error('Error: Data structure is invalid.'); 
-				}
+                // 将表格行添加到HTML字符串中
+                html += `<tr><td>${codeText}</td><td>${onsetDateTime}</td></tr>`;
+            });
+        } else {
+            console.error('Error: Data structure is invalid.'); 
+        }
 
-				html += '</table>';
-				document.getElementById("content").innerHTML = html;
+        html += '</table>';
 
-			})
-			.catch(error => {
-				console.error('Error fetching data:', error);
-			});
-		}
-		
-		
-		
-		
-		function PastHistory(patientId) {
-			const data = new FormData();
-			data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
+        // 添加距离
+        html += '<br><br>';
+        // 添加上一页按钮
+        html += '<button onclick="showAllPatients()">上一頁</button>';
+        document.getElementById("content").innerHTML = html;
 
-			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
 
-			fetch(url, {
-				method: 'POST',
-				body: data
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {
-				const jsonData = JSON.parse(data); 
+function PastHistory(patientId) {
+    const data = new FormData();
+    data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
 
-				let html = '<h1 style="text-align: center;">過去病史</h1>';
-				html += '<table border="1">';
-				html += '<tr><th>過去病史</th></tr>';
+    const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
-				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-					jsonData.entry.forEach(entry => {
-						const id = entry.resource.id;
-						const codeText = entry.resource.code.text;
-						let onsetDateTime = ''; 
-						let conclusion = ''; 
+    fetch(url, {
+        method: 'POST',
+        body: data
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        const jsonData = JSON.parse(data); 
 
-						if (entry.resource.hasOwnProperty('onsetDateTime')) {
-							onsetDateTime = entry.resource.onsetDateTime;
-						}
+        let html = '<h1 style="text-align: center;">過去病史</h1>';
+        html += '<table border="1">';
+        html += '<tr><th>過去病史</th></tr>';
 
-						if (entry.resource.hasOwnProperty('conclusion')) {
-							conclusion = entry.resource.conclusion;
-						}
+        if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+            jsonData.entry.forEach(entry => {
+                const id = entry.resource.id;
+                const codeText = entry.resource.code.text;
+                let onsetDateTime = ''; 
+                let conclusion = ''; 
 
-						// 将表格行添加到HTML字符串中
-						html += `<tr><td>${codeText}</td></tr>`;
-					});
-				} else {
-					console.error('Error: Data structure is invalid.'); 
-				}
+                if (entry.resource.hasOwnProperty('onsetDateTime')) {
+                    onsetDateTime = entry.resource.onsetDateTime;
+                }
 
-				html += '</table>';
-				document.getElementById("content").innerHTML = html;
+                if (entry.resource.hasOwnProperty('conclusion')) {
+                    conclusion = entry.resource.conclusion;
+                }
 
-			})
-			.catch(error => {
-				console.error('Error fetching data:', error);
-			});
-		}
-		
-		
-		
-		
-		
-		function Familyhistory(patientId) {
-			const data = new FormData();
-			data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
+                // 将表格行添加到HTML字符串中
+                html += `<tr><td>${codeText}</td></tr>`;
+            });
+        } else {
+            console.error('Error: Data structure is invalid.'); 
+        }
 
-			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+        html += '</table>';
 
-			fetch(url, {
-				method: 'POST',
-				body: data
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {
-				const jsonData = JSON.parse(data); 
+        // 添加距离
+        html += '<br><br>';
+        // 添加上一页按钮
+        html += '<button onclick="showAllPatients()">上一頁</button>';
+        document.getElementById("content").innerHTML = html;
 
-				let html = '<h1 style="text-align: center;">家族病史</h1>';
-				html += '<table border="1">';
-				html += '<tr><th>家族病史</th></tr>';
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
 
-				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-					jsonData.entry.forEach(entry => {
-						let conditionText = ''; 
+function Familyhistory(patientId) {
+    const data = new FormData();
+    data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
 
-						if (entry.resource.hasOwnProperty('condition') && Array.isArray(entry.resource.condition)) {
-							entry.resource.condition.forEach(condition => {
-								if (condition.code && condition.code.text) {
-									conditionText = condition.code.text;
-								}
-							});
-						}
+    const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
-						// 将表格行添加到HTML字符串中
-						html += `<tr><td>${conditionText}</td></tr>`;
-					});
-				}
-				 else {
-					console.error('Error: Data structure is invalid.'); 
-				}
+    fetch(url, {
+        method: 'POST',
+        body: data
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        const jsonData = JSON.parse(data); 
 
-				html += '</table>';
-				document.getElementById("content").innerHTML = html;
+        let html = '<h1 style="text-align: center;">家族病史</h1>';
+        html += '<table border="1">';
+        html += '<tr><th>家族病史</th></tr>';
 
-			})
-			.catch(error => {
-				console.error('Error fetching data:', error);
-			});
-		}
+        if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+            jsonData.entry.forEach(entry => {
+                let conditionText = ''; 
+
+                if (entry.resource.hasOwnProperty('condition') && Array.isArray(entry.resource.condition)) {
+                    entry.resource.condition.forEach(condition => {
+                        if (condition.code && condition.code.text) {
+                            conditionText = condition.code.text;
+                        }
+                    });
+                }
+
+                // 将表格行添加到HTML字符串中
+                html += `<tr><td>${conditionText}</td></tr>`;
+            });
+        }
+        else {
+            console.error('Error: Data structure is invalid.'); 
+        }
+
+        html += '</table>';
+
+        // 添加距离
+        html += '<br><br>';
+        // 添加上一页按钮
+        html += '<button onclick="showAllPatients()">上一頁</button>';
+        document.getElementById("content").innerHTML = html;
+
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
+
 
 
 
