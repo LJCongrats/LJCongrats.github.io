@@ -89,6 +89,7 @@
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
     <script src="./download.js"></script>
+	<script src="./card.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -255,7 +256,7 @@
 							});
 						}
 
-						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">查看檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td><td><button onclick="chiefcomplaint('${id}')">查看主訴</button></td><td><button onclick="PastHistory('${id}')">查看過去病史</button></td><td><button onclick="Familyhistory('${id}')">查看家族病史</button></td></tr>`;
+						html += `<tr><td>${name}</td><td>${identifierValue}</td><td>${gender}</td><td>${birthdate}</td><td><button onclick="showObservations('${id}')">檢測數據</button></td><td><button onclick="DiagnosticReport('${id}')">查看診斷報告</button></td><td><button onclick="chiefcomplaint('${id}')">查看主訴</button></td><td><button onclick="PastHistory('${id}')">查看過去病史</button></td><td><button onclick="Familyhistory('${id}')">查看家族病史</button></td></tr>`;
 					}
 				}); 
 				
