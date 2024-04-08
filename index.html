@@ -132,7 +132,6 @@
             <br><br>
             <button type="button"onclick="uploadFhirData()">送出</button>
 			<br><br>
-
 					<div id="loadingSpinner" style="display: none; text-align: center;">
                     <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
                     <p>Loading...</p>
@@ -272,66 +271,69 @@
 		}
 
 		function showObservations(patientId) {
-			// 構建包含病患 ID 的 FormData
-			const data = new FormData();
-			data.append('userURL', `/Observation?patient=${patientId}`);
+		// 構建包含病患 ID 的 FormData
+		const data = new FormData();
+		data.append('userURL', `/Observation?patient=${patientId}`);
 
-			const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
+		const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
 
-			fetch(url, {
-				method: 'POST',
-				body: data
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {
-				const jsonData = JSON.parse(data); // 解析JSON数据
+		fetch(url, {
+			method: 'POST',
+			body: data
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.text();
+		})
+		.then(data => {
+			const jsonData = JSON.parse(data); // 解析JSON数据
 
-				let html = '<h1 style="text-align: center;">檢測數據</h1>';
-				html += '<table border="1">';
-				html += '<tr><th>檢測項目</th><th>數值</th><th>單位</th><th>日期</th></tr>';
+			let html = '<h1 style="text-align: center;">檢測數據</h1>';
+			html += '<table border="1">';
+			html += '<tr><th>檢測項目</th><th>數值</th><th>單位</th><th>日期</th></tr>';
 
-				// 检查 entry 属性是否存在并且是一个数组
-				if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-					jsonData.entry.forEach(entry => {
-						const id = entry.resource.id;
-						const codeText = entry.resource.code.text;
-						let value = '';
-						let unit = '';
-						let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
+			// 检查 entry 属性是否存在并且是一个数组
+			if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+				jsonData.entry.forEach(entry => {
+					const id = entry.resource.id;
+					const codeText = entry.resource.code.text;
+					let value = '';
+					let unit = '';
+					let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
 
-						if (entry.resource.hasOwnProperty('valueQuantity')) {
-							value = entry.resource.valueQuantity.value;
-							unit = entry.resource.valueQuantity.unit;
-						}
+					if (entry.resource.hasOwnProperty('valueQuantity')) {
+						value = entry.resource.valueQuantity.value;
+						unit = entry.resource.valueQuantity.unit;
+					} else if (entry.resource.hasOwnProperty('valueString')) {
+						value = entry.resource.valueString; 
+					}
 
-						if (entry.resource.hasOwnProperty('effectiveDateTime')) {
-							effectiveDateTime = entry.resource.effectiveDateTime;
-						}
+					if (entry.resource.hasOwnProperty('effectiveDateTime')) {
+						effectiveDateTime = entry.resource.effectiveDateTime;
+					}
 
-						// 将表格行添加到HTML字符串中
-						html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
-					});
-				} else {
-					console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
-				}
+					// 将表格行添加到HTML字符串中
+					html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
+				});
+			} else {
+				console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+			}
 
-				html += '</table>';
-				// 添加距离
-				html += '<br><br>';
-				// 添加上一页按钮
-				html += '<button onclick="showAllPatients()">上一頁</button>';
-				document.getElementById("content").innerHTML = html;
+			html += '</table>';
+			// 添加距离
+			html += '<br><br>';
+			// 添加上一页按钮
+			html += '<button onclick="showAllPatients()">上一頁</button>';
+			document.getElementById("content").innerHTML = html;
 
-			})
-			.catch(error => {
-				console.error('Error fetching data:', error);
-			});
-		}
+		})
+		.catch(error => {
+			console.error('Error fetching data:', error);
+		});
+	}
+
 
 
 
