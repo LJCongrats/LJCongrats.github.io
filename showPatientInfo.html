@@ -108,37 +108,42 @@
     <script>
         // 獲取 URL 中的查詢參數 id
 
-        function showDiagnosisInfo() {
-            document.getElementById("content").innerHTML = `
-                <h1 style="text-align: center;">電子病歷資訊網站</h1>
-				<h2>上傳病歷檔案</h2>
-				<p id="errorOutput" style="color: red;"></p>
-                <form action="#" method="post" enctype="multipart/form-data">
-                    <label for="">姓名</label>
-                    <input type="text" id="name">
-                    <br><br>
-                    <label for="userID">身分證字號</label>
-                    <input type="text" id="userID">
-                    <br><br>
-					<label for="email">Email(用於上傳結果通知)</label> <!-- 新增的Email欄位 -->
-					<input type="email" id="email"> <!-- 新增的Email欄位 -->
-					<br><br>
-                    <label for="fileInput">選擇檔案：</label>
-                    <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
-                    <br><br>
-                    <button type="button" onclick="uploadFile()">上傳</button>
-                    <br><br>
+        function showPatientInfo() {
+    document.getElementById("content").innerHTML = `
+        <h1 style="text-align: center;">電子病歷資訊網站</h1>
+        <h2>上傳病患資料</h2>
+        <p id="errorOutput" style="color: red;"></p>
+        <form action="">
+            <label for="name">姓名</label>
+            <input type="text" id="name" placeholder="">
+            <br><br>
+            <label for="userID">身分證字號</label>
+            <input type="text" id="userID" placeholder="">
+            <br><br>
+            <label for="birthdate">生日</label>
+            <input type="date" id="birthdate" pattern="\d{4}-\d{2}-\d{2}" title="Please enter date in format yyyy-mm-dd"> 
+            <br><br>
+            <label for="gender">性別</label>
+		<select id="gender">
+		    <option value="male">male</option>
+		    <option value="female">female</option>
+		    <option value="unknown">unknown</option>
+		    <option value="others">others</option>
+		</select>
+            <br><br>
+            <button type="button"onclick="uploadFhirData()">送出</button>
+			<br><br>
 					<div id="loadingSpinner" style="display: none; text-align: center;">
                     <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
                     <p>Loading...</p>
                 </div>
                     <div id="responseMessage"></div>
-                </form>`;
-        }
+        </form>`;
+	}
 
         // 在頁面加載時顯示觀察結果
         window.onload = function() {
-            showDiagnosisInfo();
+            showPatientInfo();
         };
     </script>
 </body>

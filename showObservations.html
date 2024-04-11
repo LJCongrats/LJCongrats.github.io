@@ -107,38 +107,76 @@
 
     <script>
         // 獲取 URL 中的查詢參數 id
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
 
-        function showDiagnosisInfo() {
-            document.getElementById("content").innerHTML = `
-                <h1 style="text-align: center;">電子病歷資訊網站</h1>
-				<h2>上傳病歷檔案</h2>
-				<p id="errorOutput" style="color: red;"></p>
-                <form action="#" method="post" enctype="multipart/form-data">
-                    <label for="">姓名</label>
-                    <input type="text" id="name">
-                    <br><br>
-                    <label for="userID">身分證字號</label>
-                    <input type="text" id="userID">
-                    <br><br>
-					<label for="email">Email(用於上傳結果通知)</label> <!-- 新增的Email欄位 -->
-					<input type="email" id="email"> <!-- 新增的Email欄位 -->
-					<br><br>
-                    <label for="fileInput">選擇檔案：</label>
-                    <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
-                    <br><br>
-                    <button type="button" onclick="uploadFile()">上傳</button>
-                    <br><br>
-					<div id="loadingSpinner" style="display: none; text-align: center;">
-                    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-                    <p>Loading...</p>
-                </div>
-                    <div id="responseMessage"></div>
-                </form>`;
+        function showObservations(patientId) {
+            // 構建包含病患 ID 的 FormData
+            const data = new FormData();
+            data.append('userURL', `/Observation?patient=${patientId}`);
+
+            const url = 'https://e842-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
+
+            fetch(url, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                const jsonData = JSON.parse(data); // 解析JSON数据
+
+                let html = '<h1 style="text-align: center;">檢測數據</h1>';
+                html += '<table border="1">';
+                html += '<tr><th>檢測項目</th><th>數值</th><th>單位</th><th>日期</th></tr>';
+
+                // 检查 entry 属性是否存在并且是一个数组
+                if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
+                    jsonData.entry.forEach(entry => {
+                        const id = entry.resource.id;
+                        const codeText = entry.resource.code.text;
+                        let value = '';
+                        let unit = '';
+                        let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
+
+                        if (entry.resource.hasOwnProperty('valueQuantity')) {
+                            value = entry.resource.valueQuantity.value;
+                            unit = entry.resource.valueQuantity.unit;
+                        } else if (entry.resource.hasOwnProperty('valueString')) {
+                            value = entry.resource.valueString; 
+                        }
+
+                        if (entry.resource.hasOwnProperty('effectiveDateTime')) {
+                            effectiveDateTime = entry.resource.effectiveDateTime;
+                        }
+
+                        // 将表格行添加到HTML字符串中
+                        html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
+                    });
+                } else {
+                    console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+                }
+
+                html += '</table>';
+                // 添加距离
+                html += '<br><br>';
+                // 添加上一页按钮
+                html += '<button onclick="window.location.href = \'showAllPatients.html\'">上一頁</button>';
+                document.getElementById("content").innerHTML = html;
+
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
         }
 
         // 在頁面加載時顯示觀察結果
         window.onload = function() {
-            showDiagnosisInfo();
+            showObservations(id);
         };
     </script>
 </body>
