@@ -13,7 +13,7 @@ function downloadData() {
     var loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';
 
-    fetch("https://e842-140-116-156-231.ngrok-free.app/download", {
+    fetch("https://a7eb-140-116-156-231.ngrok-free.app/download", {
         method: 'POST',
         body: requestData
     })
