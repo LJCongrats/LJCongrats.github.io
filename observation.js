@@ -7,7 +7,7 @@ function uploadFile() {
     var userEmail = document.getElementById("email").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url = "https://224b-140-116-156-231.ngrok-free.app/upload";
+    const api_url = "https://192f-140-116-156-231.ngrok-free.app/upload";
 
     const file = fileInput.files[0];
     if (file) {
