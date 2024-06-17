@@ -111,19 +111,19 @@
     <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔/Patient</button>
     <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案/Upload</button>
     <button onclick="window.location.href = 'showDownload.html'">下載病歷報告/Download</button>
-	<button onclick="window.location.href = 'medicine.html'">看看用藥/Download</button>
-	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+    <button onclick="window.location.href = 'medicine.html'">查詢癌症用藥/Download</button>
+    <button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
 </nav>
 
 <main id="content">
     <!-- Content will change based on button clicks -->
-    <h1>看看用藥</h1>
+    <h1>查詢癌症用藥</h1>
 </main>
 
 <script>
     function showmedicine() {
         document.getElementById("content").innerHTML = `
-            <h1 style="text-align: center;">看看用藥</h1>
+            <h1 style="text-align: center;">查詢癌症用藥</h1>
             <h2>上傳用藥</h2>
             <p id="errorOutput" style="color: red;"></p>
             <form id="medicineForm">
