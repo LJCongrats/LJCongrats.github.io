@@ -100,6 +100,7 @@
 
         td {
             text-align: left; /* 单元格文本左对齐 */
+	
         }
 
     </style>
@@ -190,10 +191,10 @@
     }
 
     function updateTableData(data) {
-        document.getElementById('drugClass').innerText = data.drug_type || '';
-        document.getElementById('cardiotoxicityWarning').innerText = data.cardiotoxicity || '';
-        document.getElementById('chineseSummary').innerText = data.Chinese_abstract || '';
-        document.getElementById('originalText').innerText = data.original_text || '';
+        document.getElementById('drugClass').innerHTML = data.drug_type || '';
+        document.getElementById('cardiotoxicityWarning').innerHTML = data.cardiotoxicity || '';
+        document.getElementById('chineseSummary').innerHTML = data.Chinese_abstract || '';
+        document.getElementById('originalText').innerHTML = data.original_text || '';
     }
 
     window.onload = function() {
