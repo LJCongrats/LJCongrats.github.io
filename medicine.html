@@ -111,7 +111,7 @@
     <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-	<button onclick="window.location.href = 'medicine.html'">查詢癌症用藥</button>
+	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
 	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
 </nav>
 
@@ -124,7 +124,7 @@
     function showmedicine() {
         document.getElementById("content").innerHTML = `
             <h1 style="text-align: center;">電子病歷資訊網站</h1>
-            <h2>輸入癌症用藥</h2>
+            <h2>輸入藥物</h2>
             <p id="errorOutput" style="color: red;"></p>
             <form id="medicineForm">
                 <label for="name"></label>
