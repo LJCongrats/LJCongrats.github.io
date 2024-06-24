@@ -1,25 +1,51 @@
-function uploadFile() {
+function displayFileNames() {
+    const fileInput = document.getElementById('fileInput');
+    const fileNamesDiv = document.getElementById('fileNames');
+    fileNamesDiv.innerHTML = ''; // 清空之前的内容
+
+    const files = fileInput.files;
+    if (files.length > 0) {
+        const fileNames = [];
+        for (let i = 0; i < files.length; i++) {
+            fileNames.push(files[i].name);
+        }
+        fileNamesDiv.innerHTML = '選擇的檔案:<br>' + fileNames.join('<br>');
+    } else {
+        fileNamesDiv.innerHTML = '未選擇任何檔案';
+    }
+}
+
+
+
+function uploadFiles() {
     // 清空上次回應的訊息
     document.getElementById("responseMessage").innerHTML = '';
 
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
     var userEmail = document.getElementById("email").value;
+    var pasthistory = document.getElementById("pasthistory").value;
+    var familyhistory = document.getElementById("familyhistory").value;
 
     const fileInput = document.getElementById('fileInput');
     const api_url = "https://e1dc-140-116-156-231.ngrok-free.app/upload";
 
-    const file = fileInput.files[0];
-    if (file) {
+    const files = fileInput.files;
+    if (files.length > 0) {
         const formData = new FormData();
-        formData.append('fileInput', file);
         formData.append('userID', userID);
         formData.append('userName', userName);
-	formData.append('userEmail', userEmail);
+        formData.append('userEmail', userEmail);
+        formData.append('pasthistory', pasthistory);
+        formData.append('familyhistory', familyhistory);
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('fileInput', files[i]);
+        }
 
         const loadingSpinner = document.getElementById('loadingSpinner');
         loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
-	loadingSpinner.querySelector('p').innerHTML = '正在上傳檔案...';
+        loadingSpinner.querySelector('p').innerHTML = '正在上傳檔案...';
 
         fetch(api_url, {
             method: 'POST',
