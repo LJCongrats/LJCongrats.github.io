@@ -94,11 +94,10 @@
 <body>
     
     <nav>
-        <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
-        <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
-        <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+        <button onclick="window.location.href = 'showPatientInfo.html'">上傳病患資料/Patient</button>
+        <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案/Upload</button>
+        <button onclick="window.location.href = 'showDownload.html'">下載病歷報告/Download</button>
+		<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
@@ -144,6 +143,7 @@
 					<div id="responseMessage"></div>
 				</form>`;
 		}
+
 
         // 在頁面加載時顯示觀察結果
         window.onload = function() {
