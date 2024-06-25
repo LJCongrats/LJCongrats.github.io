@@ -28,56 +28,54 @@ function uploadFiles() {
     var familyhistory = document.getElementById("familyhistory").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url = "https://e1dc-140-116-156-231.ngrok-free.app/upload";
+    const api_url = "http://140.116.156.203:4998/upload";
+
+    const formData = new FormData();
+    formData.append('userID', userID);
+    formData.append('userName', userName);
+    formData.append('userEmail', userEmail);
+    formData.append('pasthistory', pasthistory);
+    formData.append('familyhistory', familyhistory);
 
     const files = fileInput.files;
     if (files.length > 0) {
-        const formData = new FormData();
-        formData.append('userID', userID);
-        formData.append('userName', userName);
-        formData.append('userEmail', userEmail);
-        formData.append('pasthistory', pasthistory);
-        formData.append('familyhistory', familyhistory);
-
         for (let i = 0; i < files.length; i++) {
             formData.append('fileInput', files[i]);
         }
-
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
-        loadingSpinner.querySelector('p').innerHTML = '正在上傳檔案...';
-
-        fetch(api_url, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('網路錯誤');
-        })
-        .then(data => {
-            console.log('伺服器回應:', data);
-
-            // 更新HTML，顯示伺服器的回應
-            document.getElementById("responseMessage").innerHTML = data.message;
-
-            // 這裡你可以根據回應執行其他操作
-
-            // 收到伺服器回應後隱藏加載中 Spinner
-            loadingSpinner.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('錯誤:', error);
-            document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
-
-            // 錯誤情況下隱藏加載中 Spinner
-            loadingSpinner.style.display = 'none';
-        });
-    } else {
-        console.error('未選擇檔案.');
     }
+
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
+    loadingSpinner.querySelector('p').innerHTML = '正在上傳資料...';
+
+    fetch(api_url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('網路錯誤');
+    })
+    .then(data => {
+        console.log('伺服器回應:', data);
+
+        // 更新HTML，顯示伺服器的回應
+        document.getElementById("responseMessage").innerHTML = data.message;
+
+        // 這裡你可以根據回應執行其他操作
+
+        // 收到伺服器回應後隱藏加載中 Spinner
+        loadingSpinner.style.display = 'none';
+    })
+    .catch(error => {
+        console.error('錯誤:', error);
+        document.getElementById("responseMessage").innerHTML = '上傳失敗: ' + error.message;
+
+        // 錯誤情況下隱藏加載中 Spinner
+        loadingSpinner.style.display = 'none';
+    });
 }
 
 /*function uploadFile() {
