@@ -28,7 +28,7 @@ function uploadFiles() {
     var familyhistory = document.getElementById("familyhistory").value;
 
     const fileInput = document.getElementById('fileInput');
-    const api_url = "http://140.116.156.203:4998/upload";
+    const api_url = "https://e1dc-140-116-156-231.ngrok-free.app/upload";
 
     const formData = new FormData();
     formData.append('userID', userID);
