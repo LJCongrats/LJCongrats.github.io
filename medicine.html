@@ -121,36 +121,7 @@
 </main>
 
 <script>
-    function showmedicine() {
-	    document.getElementById("content").innerHTML = `
-	        <h1 style="text-align: center;">電子病歷資訊網站</h1>
-	        <h2>輸入藥物</h2>
-	        <p id="errorOutput" style="color: red;"></p>
-	        <form id="medicineForm">
-	            <label for="name">如有多個藥物，請用,隔開。如:Aflibercept,Bevacizumab</label>
-	            <input type="text" id="name" placeholder="">
-	            <br><br>
-	            <button type="button" onclick="uploadMedicineData()">送出</button>
-	            <br><br>
-	            <div id="loadingSpinner" style="display: none; text-align: center;">
-	                <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-	                <p>Loading...</p>
-	            </div>
-	            <div id="responseMessage"></div>
-	            <h2>相關資訊</h2>
-	            <table id="responseTable" border="1">
-	                <col style="width: 11%;">
-	                <col style="width: 89%;">
-	                <tr><th>藥物名稱</th><td id="drugName"></td></tr>
-	                <tr><th>藥物類別</th><td id="drugClass"></td></tr>
-	                <tr><th>心臟毒性警示</th><td id="cardiotoxicityWarning"></td></tr>
-	                <tr><th>中文摘要</th><td id="chineseSummary"></td></tr>
-	                <tr><th>原文</th><td id="originalText"></td></tr>
-	            </table>
-	        </form>`;
-	}
-	
-	function uploadMedicineData() {
+    function uploadMedicineData() {
 	    document.getElementById("responseMessage").innerHTML = '';
 	    var Uname = document.getElementById("name").value;
 	
