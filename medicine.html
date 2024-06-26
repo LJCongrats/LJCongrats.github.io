@@ -187,59 +187,59 @@
 	    tableContainer.innerHTML = ''; // Clear previous data
 	
 	    data.forEach(item => {
-		const table = document.createElement('table');
-		table.border = '1';
-		table.style.marginBottom = '20px'; // Add spacing between tables
+	        const table = document.createElement('table');
+	        table.border = '1';
+	        table.style.marginBottom = '20px'; // Add spacing between tables
 	
-		const drugNameRow = document.createElement('tr');
-		const drugNameHeader = document.createElement('th');
-		drugNameHeader.style.width = '11%';
-		drugNameHeader.textContent = '藥物名稱';
-		const drugNameData = document.createElement('td');
-		drugNameData.style.width = '89%';
-		drugNameData.innerHTML = (item.drug || '').replace(/\n/g, '<br>');
-		drugNameRow.appendChild(drugNameHeader);
-		drugNameRow.appendChild(drugNameData);
+	        const drugNameRow = document.createElement('tr');
+	        const drugNameHeader = document.createElement('th');
+	        drugNameHeader.style.width = '11%';
+	        drugNameHeader.textContent = '藥物名稱';
+	        const drugNameData = document.createElement('td');
+	        drugNameData.style.width = '89%';
+	        drugNameData.innerHTML = item.drug || '';
+	        drugNameRow.appendChild(drugNameHeader);
+	        drugNameRow.appendChild(drugNameData);
 	
-		const drugClassRow = document.createElement('tr');
-		const drugClassHeader = document.createElement('th');
-		drugClassHeader.textContent = '藥物類別';
-		const drugClassData = document.createElement('td');
-		drugClassData.innerHTML = (item.type || '').replace(/\n/g, '<br>');
-		drugClassRow.appendChild(drugClassHeader);
-		drugClassRow.appendChild(drugClassData);
+	        const drugClassRow = document.createElement('tr');
+	        const drugClassHeader = document.createElement('th');
+	        drugClassHeader.textContent = '藥物類別';
+	        const drugClassData = document.createElement('td');
+	        drugClassData.innerHTML = item.type || '';
+	        drugClassRow.appendChild(drugClassHeader);
+	        drugClassRow.appendChild(drugClassData);
 	
-		const cardiotoxicityRow = document.createElement('tr');
-		const cardiotoxicityHeader = document.createElement('th');
-		cardiotoxicityHeader.textContent = '心臟毒性警示';
-		const cardiotoxicityData = document.createElement('td');
-		cardiotoxicityData.innerHTML = (item.cardiotoxicity || '').replace(/\n/g, '<br>');
-		cardiotoxicityRow.appendChild(cardiotoxicityHeader);
-		cardiotoxicityRow.appendChild(cardiotoxicityData);
+	        const cardiotoxicityRow = document.createElement('tr');
+	        const cardiotoxicityHeader = document.createElement('th');
+	        cardiotoxicityHeader.textContent = '心臟毒性警示';
+	        const cardiotoxicityData = document.createElement('td');
+	        cardiotoxicityData.innerHTML = item.cardiotoxicity || '';
+	        cardiotoxicityRow.appendChild(cardiotoxicityHeader);
+	        cardiotoxicityRow.appendChild(cardiotoxicityData);
 	
-		const chineseSummaryRow = document.createElement('tr');
-		const chineseSummaryHeader = document.createElement('th');
-		chineseSummaryHeader.textContent = '中文摘要';
-		const chineseSummaryData = document.createElement('td');
-		chineseSummaryData.innerHTML = (item.Chinese_abstract || '').replace(/\n/g, '<br>');
-		chineseSummaryRow.appendChild(chineseSummaryHeader);
-		chineseSummaryRow.appendChild(chineseSummaryData);
+	        const chineseSummaryRow = document.createElement('tr');
+	        const chineseSummaryHeader = document.createElement('th');
+	        chineseSummaryHeader.textContent = '中文摘要';
+	        const chineseSummaryData = document.createElement('td');
+	        chineseSummaryData.innerHTML = item.Chinese_abstract || '';
+	        chineseSummaryRow.appendChild(chineseSummaryHeader);
+	        chineseSummaryRow.appendChild(chineseSummaryData);
 	
-		const originalTextRow = document.createElement('tr');
-		const originalTextHeader = document.createElement('th');
-		originalTextHeader.textContent = '原文';
-		const originalTextData = document.createElement('td');
-		originalTextData.innerHTML = (item.original_text || '').replace(/\n/g, '<br>');
-		originalTextRow.appendChild(originalTextHeader);
-		originalTextRow.appendChild(originalTextData);
+	        const originalTextRow = document.createElement('tr');
+	        const originalTextHeader = document.createElement('th');
+	        originalTextHeader.textContent = '原文';
+	        const originalTextData = document.createElement('td');
+	        originalTextData.innerHTML = item.original_text || '';
+	        originalTextRow.appendChild(originalTextHeader);
+	        originalTextRow.appendChild(originalTextData);
 	
-		table.appendChild(drugNameRow);
-		table.appendChild(drugClassRow);
-		table.appendChild(cardiotoxicityRow);
-		table.appendChild(chineseSummaryRow);
-		table.appendChild(originalTextRow);
+	        table.appendChild(drugNameRow);
+	        table.appendChild(drugClassRow);
+	        table.appendChild(cardiotoxicityRow);
+	        table.appendChild(chineseSummaryRow);
+	        table.appendChild(originalTextRow);
 	
-		tableContainer.appendChild(table);
+	        tableContainer.appendChild(table);
 	    });
 	}
 
