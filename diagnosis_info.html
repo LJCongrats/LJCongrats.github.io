@@ -97,8 +97,8 @@
         <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+        <button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
+        <button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
@@ -107,49 +107,71 @@
     </main>
 
     <script>
-        // 獲取 URL 中的查詢參數 id
-
+        // 顯示病歷檔案上傳表單
         function showDiagnosisInfo() {
-			document.getElementById("content").innerHTML = `
-				<h1 style="text-align: center;">電子病歷資訊網站</h1>
-				<h2>上傳病歷檔案</h2>
-				<p id="errorOutput" style="color: red;"></p>
-				<form action="#" method="post" enctype="multipart/form-data">
-					<label for="">姓名</label>
-					<input type="text" id="name">
-					<br><br>
-					<label for="userID">身分證字號</label>
-					<input type="text" id="userID">
-					<br><br>
-					<label for="email">Email(用於上傳結果通知)</label> 
-					<input type="email" id="email"> 
-					<br><br>
-     					<label for="pasthistory">過去病史</label> 
-					<input type="text" id="pasthistory"> 
-					<br><br>
-					<label for="familyhistory">家族病史</label> 
-					<input type="text" id="familyhistory"> 
-					<label for="fileInput">選擇檔案：</label>
-     					<br><br>
-					<input type="file" id="fileInput" name="fileInput" accept=".jpg, .jpeg, .png, .txt, .pdf, .doc, .docx, .zip" webkitdirectory multiple onchange="displayFileNames()">
-					<br><br>
-					<div id="fileNames"></div> <!-- 用來顯示選擇的檔案名稱 -->
-					<br><br>
-					<button type="button" onclick="uploadFiles()">上傳</button>
-					<br><br>
-					<div id="loadingSpinner" style="display: none; text-align: center;">
-						<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-						<p>Loading...</p>
-					</div>
-					<div id="responseMessage"></div>
-				</form>`;
-		}
+            document.getElementById("content").innerHTML = `
+                <h1 style="text-align: center;">電子病歷資訊網站</h1>
+                <h2>上傳病歷檔案</h2>
+                <p id="errorOutput" style="color: red;"></p>
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name">
+                    <br><br>
+                    <label for="userID">身分證字號</label>
+                    <input type="text" id="userID">
+                    <br><br>
+                    <label for="email">Email (用於上傳結果通知)</label>
+                    <input type="email" id="email">
+                    <br><br>
+                    <label for="pasthistory">過去病史</label>
+                    <input type="text" id="pasthistory">
+                    <br><br>
+                    <label for="familyhistory">家族病史</label>
+                    <input type="text" id="familyhistory">
+                    <br><br>
+                    <label for="fileInput">選擇檔案：</label>
+                    <br><br>
+                    <input type="file" id="fileInput" name="fileInput" accept=".jpg, .jpeg, .png, .txt, .pdf, .doc, .docx, .zip" webkitdirectory multiple onchange="displayFileNames()">
+                    <br><br>
+                    <div id="fileNames"></div> <!-- 用來顯示選擇的檔案名稱 -->
+                    <br><br>
+                    <button type="button" onclick="uploadFiles()">上傳</button>
+                    <br><br>
+                    <div id="loadingSpinner" style="display: none; text-align: center;">
+                        <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+                        <p>Loading...</p>
+                    </div>
+                    <div id="responseMessage"></div>
+                </form>`;
+        }
 
+        // 顯示選擇的檔案名稱
+        function displayFileNames() {
+            var input = document.getElementById('fileInput');
+            var output = document.getElementById('fileNames');
+            var files = input.files;
+            output.innerHTML = "";
 
-        // 在頁面加載時顯示觀察結果
-        window.onload = function() {
-            showDiagnosisInfo();
-        };
-    </script>
-</body>
-</html>
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var listItem = document.createElement('div');
+                listItem.textContent = file.webkitRelativePath + " (" + file.size + " bytes)";
+                output.appendChild(listItem);
+            }
+        }
+
+        // 模擬上傳檔案
+        function uploadFiles() {
+            var loadingSpinner = document.getElementById('loadingSpinner');
+            var responseMessage = document.getElementById('responseMessage');
+            loadingSpinner.style.display = 'block';
+            responseMessage.innerHTML = "";
+
+            // 模擬上傳時間
+            setTimeout(function() {
+                loadingSpinner.style.display = 'none';
+                responseMessage.innerHTML = "檔案上傳成功!";
+            }, 2000);
+        }
+
+        // 在頁面加載時顯示病歷檔案上傳表單
