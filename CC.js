@@ -47,7 +47,7 @@ function uploadFiles() {
         }
 
 ///////delete
-function deleteEntry(entryId) {
+function deleteComplaint(entryId) {
             // 清空上次回應的訊息
             document.getElementById("responseMessage").innerHTML = '';
 
@@ -83,7 +83,7 @@ function deleteEntry(entryId) {
                 loadingSpinner.style.display = 'none';
 
                 // 重新加載家族病史
-                PastHistory(patientId);
+                chiefcomplaint(patientId);
 				
             })
             .catch(error => {
