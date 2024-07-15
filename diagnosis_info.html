@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,17 +57,26 @@
             padding: 0 0px; /* 調整表單的內邊距 */
         }
 
-        label {
-            font-size: 20px; /* 设置label元素的字体大小为20像素 */
-            display: flex; /* 将label元素设为flex布局 */
-            align-items: center; /* 垂直居中对齐 */
+        .form-group {
+            margin-bottom: 20px; /* 調整元素之間的間距 */
         }
 
-        input, select {
+        .form-group label {
+            font-size: 20px; /* 设置label元素的字体大小为20像素 */
+            margin-bottom: 5px; /* 調整標籤和輸入框之間的距離 */
+            display: block; /* 確保標籤顯示在上方 */
+        }
+
+        .form-group .inline-group {
+            display: flex; /* 將選單和輸入框水平排列 */
+            align-items: center; /* 垂直居中對齊 */
+        }
+
+        .form-group select, .form-group input {
             font-size: 20px; /* 设置输入框和下拉式選單的字体大小为20像素 */
             padding: 8px; /* 设置输入框和下拉式選單的内边距 */
-            margin-left: 0; /* 調整左邊距為0 */
-            width: 240px; /* 調整輸入框和下拉式選單的寬度 */
+            margin-right: 10px; /* 添加右邊距以分隔選單和輸入框 */
+            width: 150px; /* 調整輸入框和下拉式選單的寬度 */
         }
 
         button {
@@ -84,6 +93,12 @@
         button:hover {
             background-color: #555;
         }
+
+        #fileNames {
+            font-size: 18px;
+            white-space: normal; /* 确保文件名正常换行 */
+            word-wrap: break-word; /* 自动换行 */
+        }
     </style>
 
     <script src="./patient.js"></script>
@@ -97,8 +112,8 @@
         <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+		<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
+		<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
@@ -110,41 +125,73 @@
         // 獲取 URL 中的查詢參數 id
 
         function showDiagnosisInfo() {
-			document.getElementById("content").innerHTML = 
-				<h1 style="text-align: center;">電子病歷資訊網站</h1>
-				<h2>上傳病歷檔案</h2>
-				<p id="errorOutput" style="color: red;"></p>
-				<form action="#" method="post" enctype="multipart/form-data">
-					<label for="">姓名</label>
+		document.getElementById("content").innerHTML = `
+			<h1 style="text-align: center;">電子病歷資訊網站</h1>
+			<h2>上傳病歷檔案</h2>
+			<p id="errorOutput" style="color: red;"></p>
+			<form action="#" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="name">姓名</label>
 					<input type="text" id="name">
-					<br><br>
+				</div>
+				<div class="form-group">
 					<label for="userID">身分證字號</label>
 					<input type="text" id="userID">
-					<br><br>
-					<label for="email">Email(用於上傳結果通知)</label> 
-					<input type="email" id="email"> 
-					<br><br>
-     					<label for="pasthistory">過去病史</label> 
-					<input type="text" id="pasthistory"> 
-					<br><br>
-					<label for="familyhistory">家族病史</label> 
-					<input type="text" id="familyhistory"> 
-					<label for="fileInput">選擇檔案：</label>
-     					<br><br>
-					<input type="file" id="fileInput" name="fileInput" accept=".jpg, .jpeg, .png, .txt, .pdf, .doc, .docx, .zip" webkitdirectory multiple onchange="displayFileNames()">
-					<br><br>
-					<div id="fileNames"></div> <!-- 用來顯示選擇的檔案名稱 -->
-					<br><br>
-					<button type="button" onclick="uploadFiles()">上傳</button>
-					<br><br>
-					<div id="loadingSpinner" style="display: none; text-align: center;">
-						<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-						<p>Loading...</p>
+				</div>
+				<div class="form-group">
+					<label for="email">Email(用於上傳結果通知)</label>
+					<input type="email" id="email">
+				</div>
+				<div class="form-group">
+					<label for="pasthistory">過去病史</label>
+					<input type="text" id="pasthistory">
+				</div>
+				<div class="form-group">
+					<label for="familyhistory">家族病史</label>
+					<input type="text" id="familyhistory">
+				</div>
+				<div class="form-group">
+					<label for="family_history_heart">家族病史：早期心血管病（男<=55. 女<=65歲) </label>
+					<div class="inline-group">
+						<select id="family_history_heart">
+							<option value="yes">有</option>
+							<option value="no">無</option>
+						</select>
+						<input type="text" id="family_history_heart_input">
 					</div>
-					<div id="responseMessage"></div>
-				</form>;
+				</div>
+				<div class="form-group">
+					<label for="smoking">抽菸史</label>
+					<input type="text" id="smoking">
+				</div>
+				</div>
+				<div class="form-group">
+					<label for="drinking">喝酒史</label>
+					<input type="text" id="drinking">
+				</div>
+				<div class="form-group">
+					<label for="drug_allergy">藥物過敏史</label>
+					<input type="text" id="drug_allergy">
+				</div>
+				<div class="form-group">
+					<label for="fileInput">選擇檔案：</label>
+					<input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx" multiple onchange="displayFileNames()">
+				</div>
+				<div class="form-group">
+					<label for="picturefileInput">選擇壓縮檔(圖片病歷)：</label>
+					<input type="file" id="picturefileInput" name="picturefileInput" accept=".zip" multiple onchange="displayFileNames()">
+				</div>
+				<div id="fileNames"></div> <!-- 用來顯示選擇的檔案名稱 -->
+				<br>
+				<button type="button" onclick="uploadFiles()">上傳</button>
+				<br>
+				<div id="loadingSpinner" style="display: none; text-align: center;">
+					<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+					<p>Loading...</p>
+				</div>
+				<div id="responseMessage"></div>
+			</form>`;
 		}
-
 
         // 在頁面加載時顯示觀察結果
         window.onload = function() {

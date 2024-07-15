@@ -27,12 +27,15 @@
             background-color: #333;
             color: white;
             padding: 15px;
-            width: 240px;
-            height: 100vh; /* Set a fixed height using viewport height (100vh) */
+            width: 240px; /* 固定导航栏的宽度 */
+            height: 100vh; /* 设置导航栏的高度，充满整个视口高度 */
+            position: fixed; /* 固定导航栏在页面左侧 */
+            left: 0; /* 将导航栏固定在页面左侧 */
+            top: 0; /* 将导航栏固定在页面顶部 */
         }
 
         nav button {
-            width: 100%;
+            width: 100%; /* 设置按钮宽度为导航栏宽度的百分比 */
             padding: 10px;
             margin-bottom: 10px;
             font-size: 20px;
@@ -49,6 +52,7 @@
         main {
             flex: 1;
             padding: 20px;
+            margin-left: 260px; /* 留出左側導航欄的寬度 */
         }
 
         form {
@@ -126,7 +130,7 @@
     .then(data => {
         let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
         html += '<table border="1">';
-        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th></tr>';
+        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th><th>抽菸史</th><th>喝酒史</th><th>藥物過敏史</th></tr>';
         
         data.entry.forEach(entry => {
             // 排除 ID 为 147 的条目
@@ -161,6 +165,9 @@
                             <td><button ${buttonStyle} onclick="window.location.href = 'PastHistory.html?id=${id}'">查看過去病史</button></td>
                             <td><button ${buttonStyle} onclick="window.location.href = 'Familyhistory.html?id=${id}'">查看家族病史</button></td>
                             <td><button ${buttonStyle} onclick="window.location.href = 'showmedicine.html?id=${id}'">個人用藥</button></td>
+							<td><button ${buttonStyle} onclick="window.location.href = 'smoking.html?id=${id}'">抽菸史</button></td>
+                            <td><button ${buttonStyle} onclick="window.location.href = 'drinking.html?id=${id}'">喝酒史</button></td>
+                            <td><button ${buttonStyle} onclick="window.location.href = 'DrugAllergy.html?id=${id}'">藥物過敏史</button></td>
                          </tr>`;
             }
         }); 

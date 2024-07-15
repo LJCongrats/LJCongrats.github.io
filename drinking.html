@@ -28,7 +28,7 @@
             color: white;
             padding: 15px;
             width: 240px;
-            height: 100vh; /* Set a fixed height using viewport height (100vh) */
+            height: 200vh; /* Set a fixed height using viewport height (100vh) */
         }
 
         nav button {
@@ -69,9 +69,12 @@
             margin-left: 0; /* 調整左邊距為0 */
             width: 240px; /* 調整輸入框和下拉式選單的寬度 */
         }
+		.input-container {
+            margin-bottom: 20px; /* 增加輸入框和按鈕之間的距離 */
+        }
 
         button {
-            width: 200px;
+            width: 100px;
             height: 80px;
             font-size: 22px;
             background-color: #808080;
@@ -87,9 +90,9 @@
     </style>
 
     <script src="./patient.js"></script>
-    <script src="./observation.js"></script>
+    <script src="./drinking.js"></script>
     <script src="./download.js"></script>
-    <title>檢測數據</title>
+    <title>個人用藥</title>
 </head>
 <body>
     
@@ -103,18 +106,20 @@
 
     <main id="content">
         <!-- 內容將根據點擊的按鈕而變化 -->
-        <h1>檢測數據</h1>
+        <h1>個人用藥</h1>
     </main>
 
     <script>
+        let patientId;
+
         // 獲取 URL 中的查詢參數 id
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
-        function showObservations(patientId) {
+        function showdrinking(patientId) {
             // 構建包含病患 ID 的 FormData
             const data = new FormData();
-            data.append('userURL', `/Observation?patient=${patientId}`);
+            data.append('userURL', `/Condition?_text=%27喝酒史%27&patient=${patientId}`);
 
             const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
 
@@ -129,40 +134,50 @@
                 return response.text();
             })
             .then(data => {
+                console.log('Received JSON data:', data); // 打印收到的 JSON 数据
+
                 const jsonData = JSON.parse(data); // 解析JSON数据
+                console.log('Parsed JSON data:', jsonData); // 打印解析后的 JSON 数据
 
-                let html = '<h1 style="text-align: center;">檢測數據</h1>';
+                let html = '<h1 style="text-align: center;">喝酒史</h1>';
+                html += '<label for="drinking">新增喝酒史</label>';
+                html += '<input type="text" id="drinking" placeholder="喝酒史"> ';
+                html += '<button type="button" onclick="uploadFiles()">上傳</button>';
+                html += '<br><br>';
+                html += '<br><br>';
+                html += '<div id="loadingSpinner" style="display: none; text-align: center;">';
+                html += '<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">';
+                html += '<p>Loading...</p>';
+                html += '</div>';
+                html += '<div id="responseMessage"></div>';
+
                 html += '<table border="1">';
-                html += '<tr><th>檢測項目</th><th>數值</th><th>單位</th><th>日期</th></tr>';
+                html += '<tr><th>喝酒史</th><th>刪除</th></tr>';
 
-                // 检查 entry 属性是否存在并且是一个数组
-                if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-                    jsonData.entry.forEach(entry => {
-                        const id = entry.resource.id;
-                        const codeText = entry.resource.code.text;
-                        let value = '';
-                        let unit = '';
-                        let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
-
-                        if (entry.resource.hasOwnProperty('valueQuantity')) {
-                            value = entry.resource.valueQuantity.value;
-                            unit = entry.resource.valueQuantity.unit;
-                        } else if (entry.resource.hasOwnProperty('valueString')) {
-                            value = entry.resource.valueString; 
+                // 检查 resourceType 属性是否为 Bundle，并且包含 entry 数组
+                if (jsonData.resourceType === 'Bundle' && Array.isArray(jsonData.entry)) {
+				// 遍历每个 entry
+				jsonData.entry.forEach(entry => {
+					// 检查 entry 中的 resourceType 是否为 Condition
+					if (entry.resource.resourceType === 'Condition') {
+						// 提取 code 中的 text 字段内容
+						let codeText = entry.resource.code.text || '';
+						let medicationId = entry.resource.id;
+						// 将表格行添加到 HTML 字符串中
+						html += `<tr>
+									<td>${codeText}</td>
+									<td><button onclick="deleteEntry('${medicationId}')">刪除</button></td>
+								</tr>`;
+                        } else {
+                            console.error('Error: Entry resource type is invalid.'); 
                         }
-
-                        if (entry.resource.hasOwnProperty('effectiveDateTime')) {
-                            effectiveDateTime = entry.resource.effectiveDateTime;
-                        }
-
-                        // 将表格行添加到HTML字符串中
-                        html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
                     });
                 } else {
-                    console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+                    console.error('Error: Data structure is invalid.'); 
                 }
 
                 html += '</table>';
+
                 // 添加距离
                 html += '<br><br>';
                 // 添加上一页按钮
@@ -177,7 +192,8 @@
 
         // 在頁面加載時顯示觀察結果
         window.onload = function() {
-            showObservations(id);
+            patientId = id;
+            showdrinking(id);
         };
     </script>
 </body>
