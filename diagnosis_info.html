@@ -57,17 +57,26 @@
             padding: 0 0px; /* 調整表單的內邊距 */
         }
 
-        label {
-            font-size: 20px; /* 设置label元素的字体大小为20像素 */
-            display: flex; /* 将label元素设为flex布局 */
-            align-items: center; /* 垂直居中对齐 */
+        .form-group {
+            margin-bottom: 20px; /* 調整元素之間的間距 */
         }
 
-        input, select {
+        .form-group label {
+            font-size: 20px; /* 设置label元素的字体大小为20像素 */
+            margin-bottom: 5px; /* 調整標籤和輸入框之間的距離 */
+            display: block; /* 確保標籤顯示在上方 */
+        }
+
+        .form-group .inline-group {
+            display: flex; /* 將選單和輸入框水平排列 */
+            align-items: center; /* 垂直居中對齊 */
+        }
+
+        .form-group select, .form-group input {
             font-size: 20px; /* 设置输入框和下拉式選單的字体大小为20像素 */
             padding: 8px; /* 设置输入框和下拉式選單的内边距 */
-            margin-left: 0; /* 調整左邊距為0 */
-            width: 240px; /* 調整輸入框和下拉式選單的寬度 */
+            margin-right: 10px; /* 添加右邊距以分隔選單和輸入框 */
+            width: 150px; /* 調整輸入框和下拉式選單的寬度 */
         }
 
         button {
@@ -83,6 +92,12 @@
 
         button:hover {
             background-color: #555;
+        }
+
+        #fileNames {
+            font-size: 18px;
+            white-space: normal; /* 确保文件名正常换行 */
+            word-wrap: break-word; /* 自动换行 */
         }
     </style>
 
@@ -132,15 +147,23 @@
 					<input type="text" id="pasthistory">
 				</div>
 				<div class="form-group">
-					<label for="familyhistory">家族病史</label>
-					<input type="text" id="familyhistory">
+				  <label for="familyhistory">家族病史</label>
+				  <input list="conditions" id="familyhistory" name="familyhistory" oninput="filterOptions()">
+				  <datalist id="conditions">
+					<option value="糖尿病">
+					<option value="高血壓">
+					<option value="心臟病">
+					<option value="癌症">
+					<option value="中風">
+				  </datalist>
 				</div>
+
 				<div class="form-group">
 					<label for="family_history_heart">家族病史：早期心血管病（男<=55. 女<=65歲) </label>
 					<div class="inline-group">
 						<select id="family_history_heart">
-							<option value="無">無</option>
-							<option value="有">有</option>
+							<option value="yes">有</option>
+							<option value="no">無</option>
 						</select>
 						<input type="text" id="family_history_heart_input">
 					</div>
@@ -176,6 +199,26 @@
 				</div>
 				<div id="responseMessage"></div>
 			</form>`;
+		}
+		function filterOptions() {
+		  var input = document.getElementById('familyhistory');
+		  var filter = input.value.toLowerCase();
+		  var datalist = document.getElementById('conditions');
+		  var options = datalist.options;
+
+		  
+		  datalist.innerHTML = '';
+
+		  
+		  var allOptions = ['糖尿病', '高血壓', '心臟病', '癌症', '中風'];
+
+		  for (var i = 0; i < allOptions.length; i++) {
+			if (allOptions[i].toLowerCase().indexOf(filter) !== -1) {
+			  var option = document.createElement('option');
+			  option.value = allOptions[i];
+			  datalist.appendChild(option);
+			}
+		  }
 		}
 
         // 在頁面加載時顯示觀察結果
