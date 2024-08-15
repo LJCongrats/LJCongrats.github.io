@@ -98,7 +98,6 @@
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
 	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	    <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
 	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
@@ -123,7 +122,8 @@
             <input type="text" id="userID" placeholder="">
             <br><br>
             <label for="birthdate">生日</label>
-            <input type="date" id="birthdate" pattern="\d{4}-\d{2}-\d{2}" title="Please enter date in format yyyy-mm-dd"> 
+            
+			<input type="date" id="birthdate" pattern="\d{4}-\d{2}-\d{2}" min="1900-04-01" max="2100-04-30" />
             <br><br>
             <label for="gender">性別</label>
 		<select id="gender">
