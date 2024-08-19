@@ -266,20 +266,11 @@
             updateSelectedConditions();
         }
 
-        function getSelectedConditionsString() {
-            return Array.from(selectedConditions).join(',');
-        }
-
-        function uploadFiles() {
-            // 在這裡實現文件上傳邏輯
-            const familyHistory = getSelectedConditionsString();
-            console.log("Family History:", familyHistory);
-            // 使用 familyHistory 變量進行後續操作
-        }
-
-        function displayFileNames() {
-            // 實現顯示選擇的文件名稱的邏輯
-        }
+        function getSelectedConditionsJSON() {
+			return JSON.stringify({
+				family_history: Array.from(selectedConditions)
+			});
+		}
 
         window.onload = function() {
             showDiagnosisInfo();
