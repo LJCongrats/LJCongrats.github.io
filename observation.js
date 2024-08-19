@@ -40,7 +40,7 @@ function uploadFiles() {
     var userID = document.getElementById("userID").value;
     var userEmail = document.getElementById("email").value;
     var pasthistory = document.getElementById("pasthistory").value;
-    var familyhistory = document.getElementById("familyhistory").value;
+    var familyhistory = '[' + Array.from(selectedConditions).map(item => `"${item}"`).join(',') + ']';
     var family_history_heart = document.getElementById("family_history_heart").value;
 	var family_history_heart_input = document.getElementById("family_history_heart_input").value;
     var smoking = document.getElementById("smoking").value;
