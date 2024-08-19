@@ -11,16 +11,16 @@
             font-family: Arial, sans-serif;
             margin: 0;
             font-size: 22px;
-            background-color: #d3d3d3; /* 整個網頁背景為淺灰色 */
+            background-color: #d3d3d3;
         }
 
         h1 {
-            margin-top: 0px; /* 調整標題與上方的距離 */
-            font-size: 40px; /* 調整標題字體大小 */
+            margin-top: 0px;
+            font-size: 40px;
             color: #000000;
-            background-color: #d3d3d3; /* 調整標題背景色為淺灰色 */
-            padding: 0px; /* 添加標題的內邊距 */
-            text-align: center; /* 標題置中 */
+            background-color: #d3d3d3;
+            padding: 0px;
+            text-align: center;
         }
 
         nav {
@@ -28,7 +28,7 @@
             color: white;
             padding: 15px;
             width: 240px;
-            height: 100vh; /* Set a fixed height using viewport height (100vh) */
+            height: 100vh;
         }
 
         nav button {
@@ -52,31 +52,31 @@
         }
 
         form {
-            text-align: left; /* 輸入框和下拉式選單靠左對齊 */
-            margin-top: 10px; /* 調整表單元素之間的間距 */
-            padding: 0 0px; /* 調整表單的內邊距 */
+            text-align: left;
+            margin-top: 10px;
+            padding: 0 0px;
         }
 
         .form-group {
-            margin-bottom: 20px; /* 調整元素之間的間距 */
+            margin-bottom: 20px;
         }
 
         .form-group label {
-            font-size: 20px; /* 设置label元素的字体大小为20像素 */
-            margin-bottom: 5px; /* 調整標籤和輸入框之間的距離 */
-            display: block; /* 確保標籤顯示在上方 */
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
         }
 
         .form-group .inline-group {
-            display: flex; /* 將選單和輸入框水平排列 */
-            align-items: center; /* 垂直居中對齊 */
+            display: flex;
+            align-items: center;
         }
 
         .form-group select, .form-group input {
-            font-size: 20px; /* 设置输入框和下拉式選單的字体大小为20像素 */
-            padding: 8px; /* 设置输入框和下拉式選單的内边距 */
-            margin-right: 10px; /* 添加右邊距以分隔選單和輸入框 */
-            width: 150px; /* 調整輸入框和下拉式選單的寬度 */
+            font-size: 20px;
+            padding: 8px;
+            margin-right: 10px;
+            width: 150px;
         }
 
         button {
@@ -87,7 +87,7 @@
             color: white;
             border: none;
             transition: background-color 0.3s;
-            margin-left: 0; /* 調整左邊距為0 */
+            margin-left: 0;
         }
 
         button:hover {
@@ -96,8 +96,32 @@
 
         #fileNames {
             font-size: 18px;
-            white-space: normal; /* 确保文件名正常换行 */
-            word-wrap: break-word; /* 自动换行 */
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .condition-box {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .delete-condition {
+            margin-left: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #888;
+        }
+
+        .delete-condition:hover {
+            color: #ff0000;
+        }
+
+        #selectedConditions {
+            margin-top: 10px;
         }
     </style>
 
@@ -112,9 +136,9 @@
         <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-		<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	    <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
-		<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+        <button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
+        <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
+        <button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
@@ -123,117 +147,140 @@
     </main>
 
     <script>
-        // 獲取 URL 中的查詢參數 id
+        let selectedConditions = new Set();
 
         function showDiagnosisInfo() {
-		document.getElementById("content").innerHTML = `
-			<h1 style="text-align: center;">電子病歷資訊網站</h1>
-			<h2>上傳病歷檔案</h2>
-			<p id="errorOutput" style="color: red;"></p>
-			<form action="#" method="post" enctype="multipart/form-data">
-				<div class="form-group">
-					<label for="name">姓名</label>
-					<input type="text" id="name">
-				</div>
-				<div class="form-group">
-					<label for="userID">身分證字號</label>
-					<input type="text" id="userID">
-				</div>
-				<div class="form-group">
-					<label for="email">Email(用於上傳結果通知)</label>
-					<input type="email" id="email">
-				</div>
-				<div class="form-group">
-					<label for="pasthistory">過去病史</label>
-					<input type="text" id="pasthistory">
-				</div>
-				<div class="form-group">
-				  <label for="familyhistory">家族病史</label>
-				  <input list="conditions" id="familyhistory" name="familyhistory" oninput="filterOptions()">
-				  <datalist id="conditions">
-					<option value="糖尿病">
-     					<option value="糖尿病前期">
-					<option value="高血壓">
-     					<option value="高血壓前期">
-	  				<option value="高血壓第一期">
-					<option value="高血壓第二期">
-					<option value="高尿酸血症">
-					<option value="慢性腎臟病第一期">
-					<option value="慢性腎臟病第二期">
-					<option value="慢性腎臟病第三期">
-					<option value="慢性腎臟病第四期">
-					<option value="慢性腎臟病第五期">
-					<option value="代謝性症候群">
-					<option value="心臟病">
-					<option value="癌症">
-					<option value="中風">
-				  </datalist>
-				</div>
+            document.getElementById("content").innerHTML = `
+                <h1 style="text-align: center;">電子病歷資訊網站</h1>
+                <h2>上傳病歷檔案</h2>
+                <p id="errorOutput" style="color: red;"></p>
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="userID">身分證字號</label>
+                        <input type="text" id="userID">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email(用於上傳結果通知)</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="pasthistory">過去病史</label>
+                        <input type="text" id="pasthistory">
+                    </div>
+                    <div class="form-group">
+                        <label for="familyhistory">家族病史</label>
+                        <div class="inline-group">
+                            <input list="conditions" id="familyhistory" name="familyhistory">
+                            <datalist id="conditions">
+                                <option value="糖尿病">
+                                <option value="糖尿病前期">
+                                <option value="高血壓">
+                                <option value="高血壓前期">
+                                <option value="高血壓第一期">
+                                <option value="高血壓第二期">
+                                <option value="高尿酸血症">
+                                <option value="慢性腎臟病第一期">
+                                <option value="慢性腎臟病第二期">
+                                <option value="慢性腎臟病第三期">
+                                <option value="慢性腎臟病第四期">
+                                <option value="慢性腎臟病第五期">
+                                <option value="代謝性症候群">
+                                <option value="心臟病">
+                                <option value="癌症">
+                                <option value="中風">
+                            </datalist>
+                        </div>
+                        <div id="selectedConditions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="family_history_heart">家族病史：早期心血管病（男<=55. 女<=65歲) </label>
+                        <div class="inline-group">
+                            <select id="family_history_heart">
+                                <option value="yes">有</option>
+                                <option value="no">無</option>
+                            </select>
+                            <input type="text" id="family_history_heart_input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="smoking">抽菸史</label>
+                        <input type="text" id="smoking">
+                    </div>
+                    <div class="form-group">
+                        <label for="drinking">喝酒史</label>
+                        <input type="text" id="drinking">
+                    </div>
+                    <div class="form-group">
+                        <label for="drug_allergy">藥物過敏史</label>
+                        <input type="text" id="drug_allergy">
+                    </div>
+                    <div class="form-group">
+                        <label for="fileInput">選擇檔案：</label>
+                        <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx" multiple onchange="displayFileNames()">
+                    </div>
+                    <div class="form-group">
+                        <label for="picturefileInput">選擇壓縮檔(圖片病歷)：</label>
+                        <input type="file" id="picturefileInput" name="picturefileInput" accept=".zip" multiple onchange="displayFileNames()">
+                    </div>
+                    <div id="fileNames"></div>
+                    <br>
+                    <button type="button" onclick="uploadFiles()">上傳</button>
+                    <br>
+                    <div id="loadingSpinner" style="display: none; text-align: center;">
+                        <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+                        <p>Loading...</p>
+                    </div>
+                    <div id="responseMessage"></div>
+                </form>`;
 
-				<div class="form-group">
-					<label for="family_history_heart">家族病史：早期心血管病（男<=55. 女<=65歲) </label>
-					<div class="inline-group">
-						<select id="family_history_heart">
-							<option value="yes">有</option>
-							<option value="no">無</option>
-						</select>
-						<input type="text" id="family_history_heart_input">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="smoking">抽菸史</label>
-					<input type="text" id="smoking">
-				</div>
-				</div>
-				<div class="form-group">
-					<label for="drinking">喝酒史</label>
-					<input type="text" id="drinking">
-				</div>
-				<div class="form-group">
-					<label for="drug_allergy">藥物過敏史</label>
-					<input type="text" id="drug_allergy">
-				</div>
-				<div class="form-group">
-					<label for="fileInput">選擇檔案：</label>
-					<input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx" multiple onchange="displayFileNames()">
-				</div>
-				<div class="form-group">
-					<label for="picturefileInput">選擇壓縮檔(圖片病歷)：</label>
-					<input type="file" id="picturefileInput" name="picturefileInput" accept=".zip" multiple onchange="displayFileNames()">
-				</div>
-				<div id="fileNames"></div> <!-- 用來顯示選擇的檔案名稱 -->
-				<br>
-				<button type="button" onclick="uploadFiles()">上傳</button>
-				<br>
-				<div id="loadingSpinner" style="display: none; text-align: center;">
-					<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-					<p>Loading...</p>
-				</div>
-				<div id="responseMessage"></div>
-			</form>`;
-		}
-		function filterOptions() {
-		  var input = document.getElementById('familyhistory');
-		  var filter = input.value.toLowerCase();
-		  var datalist = document.getElementById('conditions');
-		  var options = datalist.options;
+            document.getElementById('familyhistory').addEventListener('change', function() {
+                const condition = this.value;
+                if (condition && !selectedConditions.has(condition)) {
+                    selectedConditions.add(condition);
+                    updateSelectedConditions();
+                }
+                this.value = '';
+            });
+        }
 
-		  
-		  datalist.innerHTML = '';
+        function updateSelectedConditions() {
+            const container = document.getElementById('selectedConditions');
+            container.innerHTML = '';
+            selectedConditions.forEach(condition => {
+                const box = document.createElement('div');
+                box.className = 'condition-box';
+                box.innerHTML = `
+                    ${condition}
+                    <span class="delete-condition" onclick="removeCondition('${condition}')">&times;</span>
+                `;
+                container.appendChild(box);
+            });
+        }
 
-		  
-		  var allOptions = ['糖尿病', '高血壓', '心臟病', '癌症', '中風', '高血壓前期', '糖尿病前期', '高血壓第一期', '高血壓第二期', '高尿酸血症', '代謝性症候群', '慢性腎臟病第一期', '慢性腎臟病第二期', '慢性腎臟病第三期', '慢性腎臟病第四期', '慢性腎臟病第五期'];
+        function removeCondition(condition) {
+            selectedConditions.delete(condition);
+            updateSelectedConditions();
+        }
 
-		  for (var i = 0; i < allOptions.length; i++) {
-			if (allOptions[i].toLowerCase().indexOf(filter) !== -1) {
-			  var option = document.createElement('option');
-			  option.value = allOptions[i];
-			  datalist.appendChild(option);
-			}
-		  }
-		}
+        function getSelectedConditionsString() {
+            return Array.from(selectedConditions).join(',');
+        }
 
-        // 在頁面加載時顯示觀察結果
+        function uploadFiles() {
+            // 在這裡實現文件上傳邏輯
+            const familyHistory = getSelectedConditionsString();
+            console.log("Family History:", familyHistory);
+            // 使用 familyHistory 變量進行後續操作
+        }
+
+        function displayFileNames() {
+            // 實現顯示選擇的文件名稱的邏輯
+        }
+
         window.onload = function() {
             showDiagnosisInfo();
         };
