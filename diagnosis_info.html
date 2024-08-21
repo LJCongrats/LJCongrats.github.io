@@ -120,7 +120,7 @@
             color: #ff0000;
         }
 
-        #selectedConditions {
+        #selectedConditions, #selectedPastConditions {
             margin-top: 10px;
         }
     </style>
@@ -148,6 +148,7 @@
 
     <script>
         let selectedConditions = new Set();
+        let selectedPastConditions = new Set();
 
         function showDiagnosisInfo() {
             document.getElementById("content").innerHTML = `
@@ -169,7 +170,28 @@
                     </div>
                     <div class="form-group">
                         <label for="pasthistory">過去病史</label>
-                        <input type="text" id="pasthistory">
+                        <div class="inline-group">
+                            <input list="past_conditions" id="pasthistory" name="pasthistory">
+                            <datalist id="past_conditions">
+                                <option value="糖尿病">
+                                <option value="糖尿病前期">
+                                <option value="高血壓">
+                                <option value="高血壓前期">
+                                <option value="高血壓第一期">
+                                <option value="高血壓第二期">
+                                <option value="高尿酸血症">
+                                <option value="慢性腎臟病第一期">
+                                <option value="慢性腎臟病第二期">
+                                <option value="慢性腎臟病第三期">
+                                <option value="慢性腎臟病第四期">
+                                <option value="慢性腎臟病第五期">
+                                <option value="代謝性症候群">
+                                <option value="心臟病">
+                                <option value="癌症">
+                                <option value="中風">
+                            </datalist>
+                        </div>
+                        <div id="selectedPastConditions"></div>
                     </div>
                     <div class="form-group">
                         <label for="familyhistory">家族病史</label>
@@ -245,6 +267,28 @@
                 }
                 this.value = '';
             });
+
+            document.getElementById('pasthistory').addEventListener('change', function() {
+                const condition = this.value;
+                if (condition && condition !== '自定義' && !selectedPastConditions.has(condition)) {
+                    selectedPastConditions.add(condition);
+                    updateSelectedPastConditions();
+                } else if (condition === '自定義') {
+                    const customInput = document.createElement('input');
+                    customInput.type = 'text';
+                    customInput.placeholder = '請輸入自定義過去病史';
+                    customInput.onchange = function() {
+                        const customCondition = this.value.trim();
+                        if (customCondition && !selectedPastConditions.has(customCondition)) {
+                            selectedPastConditions.add(customCondition);
+                            updateSelectedPastConditions();
+                            this.remove();
+                        }
+                    };
+                    this.parentNode.appendChild(customInput);
+                }
+                this.value = '';
+            });
         }
 
         function updateSelectedConditions() {
@@ -261,16 +305,41 @@
             });
         }
 
+        function updateSelectedPastConditions() {
+            const container = document.getElementById('selectedPastConditions');
+            container.innerHTML = '';
+            selectedPastConditions.forEach(condition => {
+                const box = document.createElement('div');
+                box.className = 'condition-box';
+                box.innerHTML = `
+                    ${condition}
+                    <span class="delete-condition" onclick="removePastCondition('${condition}')">&times;</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
         function removeCondition(condition) {
             selectedConditions.delete(condition);
             updateSelectedConditions();
         }
 
+        function removePastCondition(condition) {
+            selectedPastConditions.delete(condition);
+            updateSelectedPastConditions();
+        }
+
         function getSelectedConditionsJSON() {
-			return JSON.stringify({
-				family_history: Array.from(selectedConditions)
-			});
-		}
+            return JSON.stringify({
+                family_history: Array.from(selectedConditions)
+            });
+        }
+
+        function getSelectedPastConditionsJSON() {
+            return JSON.stringify({
+                past_history: Array.from(selectedPastConditions)
+            });
+        }
 
         window.onload = function() {
             showDiagnosisInfo();
