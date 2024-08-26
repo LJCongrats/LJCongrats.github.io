@@ -42,7 +42,7 @@ function uploadFiles() {
     var pasthistory = '[' + Array.from(selectedPastConditions).map(item => `"${item}"`).join(',') + ']';
     var familyhistory = '[' + Array.from(selectedConditions).map(item => `"${item}"`).join(',') + ']';
     var family_history_heart = document.getElementById("family_history_heart").value;
-	var family_history_heart_input = document.getElementById("family_history_heart_input").value;
+    var family_history_heart_input = document.getElementById("family_history_heart_input").value;
     var smoking = document.getElementById("smoking").value;
     var drinking = document.getElementById("drinking").value;
     var drug_allergy = document.getElementById("drug_allergy").value;
@@ -59,7 +59,7 @@ function uploadFiles() {
     formData.append('pasthistory', pasthistory);
     formData.append('familyhistory', familyhistory);
     formData.append('family_history_heart', family_history_heart);
-	formData.append('family_history_heart_input', family_history_heart_input);
+    formData.append('family_history_heart_input', family_history_heart_input);
     formData.append('smoking', smoking);
     formData.append('drinking', drinking);
     formData.append('drug_allergy', drug_allergy);
@@ -71,11 +71,15 @@ function uploadFiles() {
         }
     }
 
-	const folderFiles = document.getElementById('picturefileInput').files;
+    const folderFiles = document.getElementById('picturefileInput').files;
     if (folderFiles.length > 0) {
         formData.append('picturefileInput', folderFiles[0]);
     }
 
+    // 計算預計完成時間
+    const totalFiles = files.length + folderFiles.length;
+    const estimatedTime = totalFiles * 3; // 每個檔案3分鐘
+    const estimatedTimeMessage = `預計處理時間為 ${estimatedTime} 分鐘。`;
 
     const loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';  // 顯示加載中 Spinner
@@ -94,8 +98,8 @@ function uploadFiles() {
     .then(data => {
         console.log('伺服器回應:', data);
 
-        // 更新HTML，顯示伺服器的回應
-        document.getElementById("responseMessage").innerHTML = data.message;
+        // 更新HTML，顯示伺服器的回應和預計處理時間
+        document.getElementById("responseMessage").innerHTML = data.message + '<br>' + estimatedTimeMessage;
 
         // 收到伺服器回應後隱藏加載中 Spinner
         loadingSpinner.style.display = 'none';
@@ -108,6 +112,7 @@ function uploadFiles() {
         loadingSpinner.style.display = 'none';
     });
 }
+
 
 
 
