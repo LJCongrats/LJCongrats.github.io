@@ -14,7 +14,7 @@ function uploadMedicineData() {
     loadingSpinner.style.display = 'block';
 
     // 發送 POST 請求到 Flask 伺服器
-    fetch("https://e1dc-140-116-156-231.ngrok-free.app/cancer", {
+    fetch("https://0db7-140-116-156-231.ngrok-free.app/cancer", {
         method: 'POST',
         body: formData
     })
