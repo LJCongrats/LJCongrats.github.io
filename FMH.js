@@ -4,7 +4,7 @@ function uploadFiles() {
 
             var userData = document.getElementById("familyhistory").value;
 
-            const api_url = "https://e1dc-140-116-156-231.ngrok-free.app/input_FMH";
+            const api_url = "https://0db7-140-116-156-231.ngrok-free.app/input_FMH";
 
             const formData = new FormData();
             formData.append('userData', userData);
