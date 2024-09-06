@@ -410,21 +410,6 @@
             });
         }
 
-        function uploadFiles() {
-            const formData = new FormData();
-            selectedFiles.forEach(file => {
-                formData.append('files[]', file);
-            });
-            selectedPictureFiles.forEach(file => {
-                formData.append('pictureFiles[]', file);
-            });
-
-            // 在這裡處理上傳檔案的請求
-            // 比如使用 fetch() 或 XMLHttpRequest
-            console.log("Uploading files:", Array.from(selectedFiles).map(file => file.name));
-            console.log("Uploading picture files:", Array.from(selectedPictureFiles).map(file => file.name));
-        }
-
         window.onload = function() {
             showDiagnosisInfo();
         };
