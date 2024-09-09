@@ -56,7 +56,15 @@
             margin-top: 10px;
             padding: 0 0px;
         }
-
+		
+		.form-group input[type="file"] {
+            width: auto;
+            max-width: 100%;
+            overflow: visible;
+            text-overflow: clip;
+            white-space: normal;
+        }
+		
         .form-group {
             margin-bottom: 20px;
         }
@@ -122,6 +130,47 @@
 
         #selectedConditions, #selectedPastConditions, .selected-files {
             margin-top: 10px;
+        }
+		.form-group input[type="file"] {
+            width: auto;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .custom-file-input {
+            color: transparent;
+            width: 100%;
+        }
+
+        .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        .custom-file-input::before {
+            content: '選擇檔案';
+            color: black;
+            display: inline-block;
+            background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 20px 20px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: 700;
+            font-size: 15pt;
+        }
+
+        .custom-file-input:hover::before {
+            border-color: black;
+        }
+
+        .custom-file-input:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
         }
     </style>
 
@@ -242,16 +291,16 @@
                         <label for="drug_allergy">藥物過敏史</label>
                         <input type="text" id="drug_allergy">
                     </div>
-                    <div class="form-group">
-                        <label for="fileInput">選擇檔案：</label>
-                        <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx" multiple onchange="handleFileSelect(event)">
-                    </div>
-                    <div id="fileList" class="selected-files"></div>
+					<div class="form-group">
+						<label for="fileInput">選擇檔案：</label>
+						<input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx" multiple onchange="handleFileSelect(event)" class="custom-file-input">
+					</div>
+					<div id="fileList" class="selected-files"></div>
 
-                    <div class="form-group">
-                        <label for="picturefileInput">選擇壓縮檔(圖片病歷)：</label>
-                        <input type="file" id="picturefileInput" name="picturefileInput" accept=".zip" multiple onchange="handlePictureFileSelect(event)">
-                    </div>
+					<div class="form-group">
+						<label for="picturefileInput">選擇壓縮檔(圖片病歷)：</label>
+						<input type="file" id="picturefileInput" name="picturefileInput" accept=".zip" multiple onchange="handlePictureFileSelect(event)" class="custom-file-input">
+					</div>
                     <div id="pictureFileList" class="selected-files"></div>
 
                     <br>
@@ -340,7 +389,7 @@
                 selectedFiles.add(files[i]);
             }
             updateFileList();
-            event.target.value = '';  // 清空 input 以便再次選取相同檔案
+              // 清空 input 以便再次選取相同檔案
         }
 
         function handlePictureFileSelect(event) {
@@ -349,7 +398,7 @@
                 selectedPictureFiles.add(files[i]);
             }
             updatePictureFileList();
-            event.target.value = '';  // 清空 input 以便再次選取相同檔案
+              // 清空 input 以便再次選取相同檔案
         }
 
         function updateFileList() {
