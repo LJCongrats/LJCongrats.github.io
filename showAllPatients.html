@@ -101,9 +101,8 @@
         <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-	<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
-	    <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
-	<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
+		<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
+		<button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
@@ -131,7 +130,7 @@
     .then(data => {
         let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
         html += '<table border="1">';
-        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th><th>抽菸史</th><th>喝酒史</th><th>藥物過敏史</th></tr>';
+        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th><th>抽菸史</th><th>喝酒史</th><th>藥物過敏史</th><th>趨勢分析圖</th></tr>';
         
         data.entry.forEach(entry => {
             // 排除 ID 为 147 的条目
@@ -154,22 +153,24 @@
 
                 // 设置按钮的宽度为100px
                 const buttonStyle = 'style="width: 150px;"';
+				const tableStyle  = 'style="width: 180px;"';
 
                 html += `<tr>
-                            <td>${name}</td>
-                            <td>${identifierValue}</td>
-                            <td>${gender}</td>
-                            <td>${birthdate}</td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'showObservations.html?id=${id}'">檢測數據</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'DiagnosticReport.html?id=${id}'">查看診斷報告</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'chiefcomplaint.html?id=${id}'">查看主訴</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'PastHistory.html?id=${id}'">查看過去病史</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'Familyhistory.html?id=${id}'">查看家族病史</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'showmedicine.html?id=${id}'">個人用藥</button></td>
-							<td><button ${buttonStyle} onclick="window.location.href = 'smoking.html?id=${id}'">抽菸史</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'drinking.html?id=${id}'">喝酒史</button></td>
-                            <td><button ${buttonStyle} onclick="window.location.href = 'DrugAllergy.html?id=${id}'">藥物過敏史</button></td>
-                         </tr>`;
+						<td>${name}</td>
+						<td>${identifierValue}</td>
+						<td>${gender}</td>
+						<td ${tableStyle}>${birthdate}</td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'showObservations.html?id=${id}'">檢測數據</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'DiagnosticReport.html?id=${id}'">查看診斷報告</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'chiefcomplaint.html?id=${id}'">查看主訴</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'PastHistory.html?id=${id}'">查看過去病史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Familyhistory.html?id=${id}'">查看家族病史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'showmedicine.html?id=${id}'">個人用藥</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'smoking.html?id=${id}'">抽菸史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'drinking.html?id=${id}'">喝酒史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'DrugAllergy.html?id=${id}'">藥物過敏史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'CGM.html?id=${id}'">趨勢分析圖</button></td>
+					 </tr>`;
             }
         }); 
         
@@ -192,7 +193,7 @@
 		const data = new FormData();
 		data.append('userURL', `/Observation?patient=${patientId}`);
 
-		const url = 'https://0db7-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
+		const url = 'https://192f-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
 
 		fetch(url, {
 			method: 'POST',
@@ -259,7 +260,7 @@
 			const data = new FormData();
 			data.append('userURL', `/DiagnosticReport?patient=${patientId}`);
 
-			const url = 'https://0db7-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+			const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
 			fetch(url, {
 				method: 'POST',
@@ -329,7 +330,7 @@
     const data = new FormData();
     data.append('userURL', `/Condition?_text=%27主訴%27&patient=${patientId}`);
 
-    const url = 'https://0db7-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
@@ -388,7 +389,7 @@ function PastHistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
 
-    const url = 'https://0db7-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
@@ -447,7 +448,7 @@ function Familyhistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
 
-    const url = 'https://0db7-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
