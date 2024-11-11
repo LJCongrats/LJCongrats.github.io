@@ -176,7 +176,7 @@
                             const medicationName = entry.resource.medicationCodeableConcept.text || '';
                             const medicationComponent = entry.resource.note ? entry.resource.note[0].text : '';
                             const quantity = entry.resource.quantity.value.toString();
-                            const days = entry.resource.daysSupply ? entry.resource.daysSupply.value.toString() : '';
+                            const days = entry.resource.daysSupply && entry.resource.daysSupply.value ? entry.resource.daysSupply.value.toString() : 'N.A.';
                             const date = entry.resource.whenHandedOver || '';
                             const medicationId = entry.resource.id;
 
