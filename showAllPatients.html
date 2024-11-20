@@ -153,8 +153,8 @@
                 }
 
                 // 设置按钮的宽度为100px
-                const buttonStyle = 'style="width: 150px;"';
-				const tableStyle  = 'style="width: 180px;"';
+                const buttonStyle = 'style="width: 130px;"';
+		const tableStyle  = 'style="width: 180px;"';
 
                 html += `<tr>
 						<td>${name}</td>
@@ -162,10 +162,10 @@
 						<td>${gender}</td>
 						<td ${tableStyle}>${birthdate}</td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'showObservations.html?id=${id}'">檢測數據</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'DiagnosticReport.html?id=${id}'">查看診斷報告</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'chiefcomplaint.html?id=${id}'">查看主訴</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'PastHistory.html?id=${id}'">查看過去病史</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'Familyhistory.html?id=${id}'">查看家族病史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'DiagnosticReport.html?id=${id}'">診斷報告</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'chiefcomplaint.html?id=${id}'">主訴</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'PastHistory.html?id=${id}'">過去病史</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Familyhistory.html?id=${id}'">家族病史</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'showmedicine.html?id=${id}'">個人用藥</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'smoking.html?id=${id}'">抽菸史</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'drinking.html?id=${id}'">喝酒史</button></td>
