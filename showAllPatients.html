@@ -92,7 +92,7 @@
 
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
-    <script src="./download.js"></script>
+    <script src="./download_view.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -131,7 +131,7 @@
     .then(data => {
         let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
         html += '<table border="1">';
-        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th><th>抽菸史</th><th>喝酒史</th><th>藥物過敏史</th><th>趨勢分析圖</th><th>雲端藥歷</th></tr>';
+        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th></th><th>檢測數據</th><th>診斷報告</th><th>主訴</th><th>過去病史</th><th>家族病史</th><th>個人用藥</th><th>抽菸史</th><th>喝酒史</th><th>藥物過敏史</th><th>趨勢分析圖</th><th>雲端藥歷<th>PPT下載</th></tr>';
         
         data.entry.forEach(entry => {
             // 排除 ID 为 147 的条目
@@ -154,7 +154,9 @@
 
                 // 设置按钮的宽度为100px
                 const buttonStyle = 'style="width: 100px;"';
-		const tableStyle  = 'style="width: 180px;"';
+				const tableStyle  = 'style="width: 180px;"';
+				const pptbutton   = 'style="background-color: #CC0000; width: 130px;"';
+
 
                 html += `<tr>
 						<td>${name}</td>
@@ -172,6 +174,11 @@
 						<td><button ${buttonStyle} onclick="window.location.href = 'DrugAllergy.html?id=${id}'">藥物過敏史</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'CGM.html?id=${id}'">趨勢分析圖</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'cloud.html?id=${id}'">雲端藥歷</button></td>
+						<td><button ${pptbutton} onclick="downloadData('${name}', '${identifierValue}')">PPT下載</button></td>
+						<div id="loadingSpinner" style="display: none; text-align: center;">
+							<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+							<p>Loading...</p>
+						</div>
 					 </tr>`;
             }
         }); 
