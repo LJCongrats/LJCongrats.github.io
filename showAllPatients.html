@@ -174,9 +174,9 @@
 						<td><button ${buttonStyle} onclick="window.location.href = 'CGM.html?id=${id}'">趨勢分析圖</button></td>
 						<td><button ${buttonStyle} onclick="window.location.href = 'cloud.html?id=${id}'">雲端藥歷</button></td>
 						<td><button ${pptbutton} onclick="downloadData('${name}', '${identifierValue}')">PPT下載</button></td>
-						<div id="loadingSpinner" style="display: none; text-align: center;">
-							<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-							<p>Loading...</p>
+						<div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center;">
+						    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+						    <p>Loading...</p>
 						</div>
 					 </tr>`;
             }
