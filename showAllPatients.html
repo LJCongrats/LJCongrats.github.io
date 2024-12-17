@@ -88,6 +88,13 @@
         button:hover {
             background-color: #555;
         }
+		
+		#loadingSpinner p {
+			font-size: 50px; 
+			color: white; 
+			margin-top: 0;
+		}
+
     </style>
 
     <script src="./patient.js"></script>
@@ -152,6 +159,7 @@
                     });
                 }
 
+                // 设置按钮的宽度为100px
                 const buttonStyle = 'style="width: 100px;"';
 				const tableStyle  = 'style="width: 180px;"';
 				const pptbutton   = 'style="background-color: #CC0000; width: 130px;"';
@@ -175,8 +183,8 @@
 						<td><button ${buttonStyle} onclick="window.location.href = 'cloud.html?id=${id}'">雲端藥歷</button></td>
 						<td><button ${pptbutton} onclick="downloadData('${name}', '${identifierValue}')">PPT下載</button></td>
 						<div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center;">
-						    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-						    <p>Loading...</p>
+							<img src="Loading_icon.gif" alt="Loading..." width="100" height="100">
+							<p>Loading...</p>
 						</div>
 					 </tr>`;
             }
