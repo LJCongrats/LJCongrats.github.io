@@ -130,6 +130,7 @@
                 return response.text();
             })
             .then(data => {
+				console.log("Raw JSON data:", data);
                 const jsonData = JSON.parse(data); // 解析JSON数据
 
                 let html = '<h1 style="text-align: center;">檢測數據</h1>';
@@ -138,30 +139,35 @@
 
                 // 检查 entry 属性是否存在并且是一个数组
                 if (jsonData.hasOwnProperty('entry') && Array.isArray(jsonData.entry)) {
-                    jsonData.entry.forEach(entry => {
-                        const id = entry.resource.id;
-                        const codeText = entry.resource.code.text;
-                        let value = '';
-                        let unit = '';
-                        let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
+					jsonData.entry.forEach(entry => {
+						const id = entry.resource.id;
+						const codeText = entry.resource.code.text;
+						let value = '';
+						let unit = '';
+						let effectiveDateTime = ''; // 添加 effectiveDateTime 变量
 
-                        if (entry.resource.hasOwnProperty('valueQuantity')) {
-                            value = entry.resource.valueQuantity.value;
-                            unit = entry.resource.valueQuantity.unit;
-                        } else if (entry.resource.hasOwnProperty('valueString')) {
-                            value = entry.resource.valueString; 
-                        }
+						if (entry.resource.hasOwnProperty('valueQuantity')) {
+							const valueQuantity = entry.resource.valueQuantity;
+							value = valueQuantity.value; // 提取數值
+							unit = valueQuantity.unit; // 提取單位
+							
+							// 檢查 comparator 是否存在
+							if (valueQuantity.hasOwnProperty('comparator')) {
+								value = `${valueQuantity.comparator}${value}`; // 結合 comparator 和數值
+							}
+						} else if (entry.resource.hasOwnProperty('valueString')) {
+							value = entry.resource.valueString; 
+						}
 
-                        if (entry.resource.hasOwnProperty('effectiveDateTime')) {
-                            effectiveDateTime = entry.resource.effectiveDateTime;
-                        }
+						if (entry.resource.hasOwnProperty('effectiveDateTime')) {
+							effectiveDateTime = entry.resource.effectiveDateTime;
+						}
 
-                        // 将表格行添加到HTML字符串中
-                        html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
-                    });
-                } else {
-                    console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
-                }
+						html += `<tr><td>${codeText}</td><td>${value}</td><td>${unit}</td><td>${effectiveDateTime}</td></tr>`;
+					});
+				} else {
+					console.error('Error: Data structure is invalid.'); // 数据结构无效的错误处理
+				}
 
                 html += '</table>';
                 // 添加距离
