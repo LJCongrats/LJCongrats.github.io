@@ -4,7 +4,7 @@ function uploadFiles() {
 
             var userData = document.getElementById("medication").value;
 
-            const api_url = "https://0db7-140-116-156-231.ngrok-free.app/input_MS";
+            const api_url = "https://02f9-140-116-156-231.ngrok-free.app/input_MS";
 
             const formData = new FormData();
             formData.append('userData', userData);
@@ -49,7 +49,7 @@ function deleteMedication(entryId) {
             // 清空上次回應的訊息
             document.getElementById("responseMessage").innerHTML = '';
 
-            const api_url = "https://0db7-140-116-156-231.ngrok-free.app/delete";
+            const api_url = "https://02f9-140-116-156-231.ngrok-free.app/delete";
 
             const formData = new FormData();
             formData.append('Resource', "MedicationStatement");
