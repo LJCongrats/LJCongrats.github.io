@@ -150,7 +150,11 @@
 					<br><br>
 					<label for="familyhistory">疾病</label>
 					<select id="familyhistory" name="familyhistory">
-					  <option value="糖尿病">糖尿病</option>				  
+					  <option value="糖尿病">糖尿病</option>	
+					  <option value="高血壓">高血壓</option>	
+					  <option value="慢性腎臟病">慢性腎臟病</option>	
+					  <option value="高尿酸血症">高尿酸血症</option>	
+					  <option value="代謝性症候群">代謝性症候群</option>	
 					</select>
 					<br><br>
 					<button type="button" onclick="uploadMedicineData()">送出</button>
@@ -184,7 +188,7 @@
 			var loadingSpinner = document.getElementById('loadingSpinner');
 			loadingSpinner.style.display = 'block';
 
-			fetch("https://0db7-140-116-156-231.ngrok-free.app/recommend", {
+			fetch("https://02f9-140-116-156-231.ngrok-free.app/recommend", {
 				method: 'POST',
 				body: formData
 			})
@@ -206,7 +210,7 @@
 				} else {
 					document.getElementById('responseMessage').innerHTML = '沒有收到 DDR_output。';
 				}
-			})
+			});}
 <!--
     function updateTableData(data) {
         const tableContainer = document.getElementById('responseTableContainer');
