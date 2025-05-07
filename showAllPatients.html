@@ -100,6 +100,7 @@
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
     <script src="./download_view.js"></script>
+    <script src="./config.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -201,7 +202,7 @@
 
 
 		function showAllPatients() {
-			const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器 URL
+			const url = `${API_BASE_URL}/view`; // Flask 伺服器 URL
 			uploadPatientInfo(url);
 		}
 
