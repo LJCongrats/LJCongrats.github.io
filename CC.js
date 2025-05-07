@@ -1,3 +1,4 @@
+<script src="config.js"></script>
 function uploadFiles() {
             // 清空上次回應的訊息
             document.getElementById("responseMessage").innerHTML = '';
@@ -5,7 +6,7 @@ function uploadFiles() {
             var userData = document.getElementById("chiefcomplaint").value;
 			var userDate = document.getElementById("userDate").value;
 
-            const api_url = "https://02f9-140-116-156-231.ngrok-free.app/input_CC";
+            const api_url = `${API_BASE_URL}/input_CC`;
 
             const formData = new FormData();
             formData.append('userData', userData);
