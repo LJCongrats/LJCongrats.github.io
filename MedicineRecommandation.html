@@ -115,6 +115,7 @@
             border: 2px solid;
         }
     </style>
+	<script src="./config.js"></script>
 </head>
 <body>
 
@@ -193,7 +194,7 @@
 			var loadingSpinner = document.getElementById('loadingSpinner');
 			loadingSpinner.style.display = 'block';
 
-			fetch("https://02f9-140-116-156-231.ngrok-free.app/recommend", {
+			fetch(`${API_BASE_URL}/recommend`, {
 				method: 'POST',
 				body: formData
 			})

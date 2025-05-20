@@ -4,7 +4,7 @@ function uploadFiles() {
 
             var userData = document.getElementById("AllergyIntolerance").value;
 
-            const api_url = "https://02f9-140-116-156-231.ngrok-free.app//input_DrugAllergy";
+            const api_url = `${API_BASE_URL}//input_DrugAllergy`;
 
             const formData = new FormData();
             formData.append('userData', userData);

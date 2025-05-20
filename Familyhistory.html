@@ -92,6 +92,7 @@
     <script src="./patient.js"></script>
     <script src="./FMH.js"></script>
     <script src="./download.js"></script>
+	<script src="./config.js"></script>
     <title>檢測數據</title>
 </head>
 <body>
@@ -124,7 +125,7 @@
             const data = new FormData();
             data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
 
-            const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+            const url = `${API_BASE_URL}/view`; // Flask 服务器的端点 URL
 
             fetch(url, {
                 method: 'POST',
