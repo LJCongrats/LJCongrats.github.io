@@ -109,7 +109,12 @@
 
     <main id="content">
         <!-- 內容將根據點擊的按鈕而變化 -->
-        <h1>雲端藥歷</h1>
+        <h1 style="text-align: center; margin-bottom: 0.1em;">
+  		電子病歷資訊網站
+	</h1>
+	<h2 style="text-align: center; margin-top: 0.1em;">
+  		(資料來源: 衛福部健保雲端資料 醫院自有病歷資料 個人攜帶的病歷資料)
+	</h2>
     </main>
 
     <script>
@@ -141,8 +146,9 @@
 
                 const jsonData = JSON.parse(data);
                 console.log('Parsed JSON data:', jsonData);
-
-                let html = '<h1 style="text-align: center;">雲端藥歷</h1>';
+				let html = '<h1 style="text-align: center; margin-bottom: 0.1em;">電子病歷資訊網站</h1>';
+				html += '<h2 style="text-align: center; margin-top: 0.1em;">(資料來源: 衛福部健保雲端資料 醫院自有病歷資料 個人攜帶的病歷資料)</h2>';
+                html += '<h2 style="margin: 0 0 0.0em 0; padding: 0;">雲端藥歷</h2>';
                 //html += '<label for="MedicationDispense">新增藥歷</label>';
                 //html += '<input type="text" id="MedicationDispense" placeholder="新增藥歷"> ';
                 //html += '<button type="button" onclick="uploadFiles()">上傳</button>';
@@ -155,7 +161,7 @@
 
                 // New table for medication information
                 html += '<table>';
-				html += '<table border="1">';
+				html += '<table border="1" style="margin-top: 0.0em;">';
                 //html += '<tr><th>藥品名稱</th><th>藥品成分</th><th>劑量</th><th>天數</th><th>日期</th><th>刪除</th></tr>';
 				html += '<tr><th>藥品名稱</th><th>藥品成分</th><th>劑量</th><th>天數</th><th>日期</th></tr>';
                 if (jsonData.resourceType === 'Bundle' && Array.isArray(jsonData.entry)) {
