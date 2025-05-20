@@ -4,7 +4,7 @@ function uploadFiles() {
 
             var userData = document.getElementById("pasthistory").value;
 
-            const api_url = "https://02f9-140-116-156-231.ngrok-free.app/input_PH";
+            const api_url = `${API_BASE_URL}/input_PH`;
 
             const formData = new FormData();
             formData.append('userData', userData);

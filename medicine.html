@@ -104,6 +104,7 @@
         }
 
     </style>
+	<script src="./config.js"></script>
 </head>
 <body>
 
@@ -159,7 +160,7 @@
 		var loadingSpinner = document.getElementById('loadingSpinner');
 		loadingSpinner.style.display = 'block';
 
-		fetch("https://02f9-140-116-156-231.ngrok-free.app/cancer", {
+		fetch(`${API_BASE_URL}/cancer`, {
 			method: 'POST',
 			body: formData
 		})

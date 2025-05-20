@@ -93,6 +93,7 @@
     <script src="./patient.js"></script>
     <script src="./DrugAllergy.js"></script>
     <script src="./download.js"></script>
+	<script src="./config.js"></script>
     <title>雲端藥歷</title>
 </head>
 <body>
@@ -129,7 +130,7 @@
             const data = new FormData();
             data.append('userURL', `/MedicationDispense?patient=${patientId}`);
 
-            const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
+            const url = `${API_BASE_URL}/view`; // Flask 伺服器的端點 URL
 
             fetch(url, {
                 method: 'POST',

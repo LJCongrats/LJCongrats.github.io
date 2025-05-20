@@ -4,7 +4,7 @@ function uploadFiles() {
             responseMessageElement.style.display = 'block'; // 確保訊息可見
             clearImages();
             var obs_term = document.getElementById("trendAnalysis").value;
-            const api_url = "https://02f9-140-116-156-231.ngrok-free.app/device_trend_analysis";
+            const api_url = `${API_BASE_URL}/device_trend_analysis`;
             const formData = new FormData();
             formData.append('obs_term', obs_term);
             formData.append('patient_id', patientId);
