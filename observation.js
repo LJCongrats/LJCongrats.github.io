@@ -45,7 +45,6 @@ function uploadFiles() {
     var family_history_heart_input = document.getElementById("family_history_heart_input").value;
     var smoking = document.getElementById("smoking").value;
     var drinking = document.getElementById("drinking").value;
-    var drug_allergy = document.getElementById("drug_allergy").value;
 
     const fileInput = document.getElementById('fileInput');
     const picturefileInput = document.getElementById('picturefileInput'); // 注意这里的 ID
@@ -62,7 +61,6 @@ function uploadFiles() {
     formData.append('family_history_heart_input', family_history_heart_input);
     formData.append('smoking', smoking);
     formData.append('drinking', drinking);
-    formData.append('drug_allergy', drug_allergy);
 
     const files = fileInput.files;
     if (files.length > 0) {
