@@ -1,13 +1,13 @@
 function downloadData() {
     document.getElementById("responseMessage").innerHTML = '';
-    var userPrompt = document.getElementById("userPrompt").value;
+
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
 
 	
     // 建立要傳送給伺服器的資料物件
     var requestData = new FormData();
-	requestData.append('userPrompt', userPrompt);
+
     requestData.append('userName', userName);
     requestData.append('userID', userID);
 
