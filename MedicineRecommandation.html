@@ -208,7 +208,7 @@
 		  `;
 		}
 		
-		fetch("`${API_BASE_URL}/disease-list")
+		fetch(`${API_BASE_URL}/disease-list`)
 			.then(response => response.json())
 			.then(data => {
 				const select = document.getElementById("familyhistory");
@@ -243,7 +243,7 @@
 			var loadingSpinner = document.getElementById('loadingSpinner');
 			loadingSpinner.style.display = 'block';
 
-			fetch("`${API_BASE_URL}/recommend", {
+			fetch(`${API_BASE_URL}/recommend`, {
 				method: 'POST',
 				body: formData
 			})
@@ -296,7 +296,7 @@
 			  // 用 FormData 裝檔案與文字欄位
 			  formData.set('displayName', displayName);
 
-			  fetch('`${API_BASE_URL}/upload_guide', {
+			  fetch(`${API_BASE_URL}/upload_guide`, {
 				method: 'POST',
 				body: formData
 			  })
@@ -326,7 +326,7 @@
 			}
 
 			function loadDiseaseList() {
-			  fetch("`${API_BASE_URL}/disease-list")
+			  fetch(`${API_BASE_URL}/disease-list`)
 				.then(response => response.json())
 				.then(data => {
 				  const select = document.getElementById("familyhistory");
