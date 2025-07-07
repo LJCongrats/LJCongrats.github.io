@@ -208,7 +208,7 @@
 		  `;
 		}
 		
-		fetch("http://140.116.156.203:4998/disease-list")
+		fetch("`${API_BASE_URL}/disease-list")
 			.then(response => response.json())
 			.then(data => {
 				const select = document.getElementById("familyhistory");
