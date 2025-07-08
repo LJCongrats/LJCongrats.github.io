@@ -143,7 +143,9 @@
     <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
     <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
     <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
+    <button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>
     <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
+    <button onclick="window.location.href = 'Nutritional management.html'">營養管理</button>
     <button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
 </nav>
 
@@ -207,12 +209,23 @@
 			</form>
 		  `;
 		}
-		
-		fetch(`${API_BASE_URL}/disease-list`)
-			.then(response => response.json())
-			.then(data => {
+	
+		function loadDiseaseList() {
+			const api_url = `${API_BASE_URL}/disease-list`;
+			fetch(api_url)
+			.then(response => {
+				console.log("原始回應物件:", response);
+				return response.text();  // ⚠️ 改用 .text() 把原始內容印出來
+			})
+			.then(rawText => {
+				console.log("收到原始內容:", rawText);
+
+				// 嘗試手動轉成 JSON，如果失敗就會 catch 到
+				const data = JSON.parse(rawText);
+
+				// 渲染進下拉選單
 				const select = document.getElementById("familyhistory");
-				select.innerHTML = ''; // 清空原本選項
+				select.innerHTML = '';
 				data.forEach(disease => {
 					const option = document.createElement("option");
 					option.value = disease.code;
@@ -221,10 +234,10 @@
 				});
 			})
 			.catch(err => {
-				console.error("載入疾病列表失敗:", err);
+				console.error("⚠️ 載入疾病列表失敗:", err);
 				document.getElementById("errorOutput").textContent = "載入疾病列表失敗，請稍後再試。";
 			});
-		
+	}
 		
 
 		function uploadMedicineData() {
@@ -325,26 +338,10 @@
 				});
 			}
 
-			function loadDiseaseList() {
-			  fetch(`${API_BASE_URL}/disease-list`)
-				.then(response => response.json())
-				.then(data => {
-				  const select = document.getElementById("familyhistory");
-				  select.innerHTML = ''; // 清空舊選項
-				  data.forEach(disease => {
-					const option = document.createElement("option");
-					option.value = disease.code || disease.display_name; // 依API欄位調整
-					option.text = disease.display_name;
-					select.appendChild(option);
-				  });
-				})
-				.catch(err => {
-				  console.error("載入疾病列表失敗:", err);
-				  document.getElementById("errorOutput").textContent = "載入疾病列表失敗，請稍後再試。";
-				});
-			}
+			
     window.onload = function() {
-        showmedicine();
+        showmedicine();       // 確保先把 familyhistory 寫進 DOM
+		setTimeout(loadDiseaseList, 300);  // 等 DOM 插入完再執行（保守作法）
     };
 </script>
 
