@@ -211,19 +211,17 @@
 		}
 	
 		function loadDiseaseList() {
-			const api_url = "https://ab28-140-116-156-231.ngrok-free.app/disease-list";
-			fetch(api_url)
-			.then(response => {
-				console.log("原始回應物件:", response);
-				return response.text();  // ⚠️ 改用 .text() 把原始內容印出來
+			const api_url = `${API_BASE_URL}/disease-list`;
+
+			const formData = new FormData(); // 空的資料也要建立
+
+			fetch(api_url, {
+				method: 'POST',  //  使用 POST 而非 GET
+				body: formData   //  雖然沒送資料，但避免 OPTIONS 預檢
 			})
-			.then(rawText => {
-				console.log("收到原始內容:", rawText);
-
-				// 嘗試手動轉成 JSON，如果失敗就會 catch 到
-				const data = JSON.parse(rawText);
-
-				// 渲染進下拉選單
+			.then(response => response.json())
+			.then(data => {
+				console.log("疾病清單:", data);
 				const select = document.getElementById("familyhistory");
 				select.innerHTML = '';
 				data.forEach(disease => {
@@ -237,7 +235,8 @@
 				console.error("⚠️ 載入疾病列表失敗:", err);
 				document.getElementById("errorOutput").textContent = "載入疾病列表失敗，請稍後再試。";
 			});
-	}
+		}
+
 		
 
 		function uploadMedicineData() {
