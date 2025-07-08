@@ -211,7 +211,7 @@
 		}
 	
 		function loadDiseaseList() {
-			const api_url = `${API_BASE_URL}/disease-list`;
+			const api_url = "http://140.116.156.203:4998/disease-list/disease-list";
 			fetch(api_url)
 			.then(response => {
 				console.log("原始回應物件:", response);
