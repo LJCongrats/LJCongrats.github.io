@@ -2,6 +2,7 @@ function downloadData(userName, userID) {
     const requestData = new FormData();
     requestData.append('userName', userName);
     requestData.append('userID', userID);
+    requestData.append('control_re_med', 'true');
 
     const loadingSpinner = document.getElementById('loadingSpinner');
     loadingSpinner.style.display = 'block';
